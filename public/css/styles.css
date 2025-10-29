@@ -1,0 +1,17 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8fafc;
+}
+
+.navbar-brand span {
+    color: #76b82a;
+}
+
+.btn-success {
+    background-color: #76b82a;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #5aa21e;
+}
