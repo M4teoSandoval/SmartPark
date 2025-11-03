@@ -12,6 +12,7 @@
 
     <section class="main-content">
         <h1>Pagos</h1>
+        <p>Aca se ponen los pagos realizados</p>
     </section>
 </div>
 @endsection
