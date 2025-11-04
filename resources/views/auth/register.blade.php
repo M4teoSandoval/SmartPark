@@ -6,7 +6,11 @@
         
         <!-- Lado izquierdo: logo / marca -->
         <div class="col-md-6 text-center border-end">
-            <img src="{{ asset('images/logo.png') }}" alt="SmartPark Logo" class="img-fluid mb-3" style="max-width: 220px;">
+            <img src="{{ asset('images/logo.png') }}" 
+                alt="SmartPark Logo" 
+                class="img-fluid mb-3 d-block mx-auto" 
+                style="max-width: 180px; width: 100%; height: auto;">
+
             <h2 class="text-primary fw-bold" style="color: #1D457D;">
                 Smart<span class="text-success" style="color: #2CA6D0;">Park</span>
             </h2>
