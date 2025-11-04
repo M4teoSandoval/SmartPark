@@ -13,7 +13,7 @@
             <h2 class="sidebar-title">ADMIN</h2>
             <ul class="sidebar-menu">
                 <ul class="sidebar-menu">
-                    <li><a href="{{ route('admin.home') }}">Inicio</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}">Inicio</a></li>
                     <li><a href="{{ route('admin.tarifas') }}">Tarifas</a></li>
                     <li><a href="{{ route('admin.ingresos') }}">Ingresos</a></li>
                     <li><a href="{{ route('admin.salidas') }}">Salidas</a></li>
