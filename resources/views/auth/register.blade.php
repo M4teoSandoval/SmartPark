@@ -23,6 +23,7 @@
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 
+                <!-- Nombre -->
                 <div class="mb-3">
                     <input id="name" type="text" 
                            class="form-control rounded-pill p-3 @error('name') is-invalid @enderror"
@@ -33,6 +34,7 @@
                     @enderror
                 </div>
 
+                <!-- Correo -->
                 <div class="mb-3">
                     <input id="email" type="email"
                            class="form-control rounded-pill p-3 @error('email') is-invalid @enderror"
@@ -43,6 +45,33 @@
                     @enderror
                 </div>
 
+                <!-- Tipo de documento -->
+                <div class="mb-3">
+                    <select name="tipo_documento" 
+                            class="form-control rounded-pill p-3 @error('tipo_documento') is-invalid @enderror" required>
+                        <option value="" disabled selected>Tipo de documento</option>
+                        <option value="CC">Cédula de ciudadanía</option>
+                        <option value="TI">Tarjeta de identidad</option>
+                        <option value="CE">Cédula de extranjería</option>
+                        <option value="PAS">Pasaporte</option>
+                    </select>
+                    @error('tipo_documento')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Número de documento -->
+                <div class="mb-3">
+                    <input id="numero_documento" type="text"
+                           class="form-control rounded-pill p-3 @error('numero_documento') is-invalid @enderror"
+                           name="numero_documento" value="{{ old('numero_documento') }}" required
+                           placeholder="Número de documento">
+                    @error('numero_documento')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Contraseña -->
                 <div class="mb-3">
                     <input id="password" type="password"
                            class="form-control rounded-pill p-3 @error('password') is-invalid @enderror"
@@ -52,12 +81,14 @@
                     @enderror
                 </div>
 
+                <!-- Confirmar contraseña -->
                 <div class="mb-4">
                     <input id="password-confirm" type="password"
                            class="form-control rounded-pill p-3"
                            name="password_confirmation" required placeholder="Confirmar contraseña">
                 </div>
 
+                <!-- Botón -->
                 <button type="submit" class="btn btn-success w-100 rounded-pill fw-bold py-2">
                     Continuar
                 </button>

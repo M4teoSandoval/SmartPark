@@ -14,12 +14,8 @@ class AdminController extends Controller
         return view('admin.tarifas');
     }
 
-    public function ingresos() {
-        return view('admin.ingresos');
-    }
-
-    public function salidas() {
-        return view('admin.salidas');
+    public function movimientos() {
+        return view('admin.movimientos');
     }
 
     public function abonados() {
