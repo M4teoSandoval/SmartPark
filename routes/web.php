@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\MovimientoController;
+use App\Http\Controllers\Admin\ParqueaderoController;
 use App\Http\Controllers\Admin\TarifaController;
 
 Route::get('/', function () {
@@ -53,4 +54,16 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/admin/tarifas/{id}', [TarifaController::class, 'destroy'])
         ->name('admin.tarifas.delete');
+
+
+
+
+    Route::get('/admin/parqueadero', [ParqueaderoController::class, 'index'])
+        ->name('admin.parqueadero');
+
+    Route::post('/admin/parqueadero', [ParqueaderoController::class, 'store'])
+        ->name('admin.parqueadero.store');
+
+    Route::put('/admin/parqueadero/{id}', [ParqueaderoController::class, 'update'])
+        ->name('admin.parqueadero.update');
 });

@@ -112,8 +112,8 @@
             {{-- ============================= --}}
             {{-- REGISTRAR SALIDA --}}
             {{-- ============================= --}}
-            <div class="card shadow mb-4">
-                <div class="card-header bg-primary text-white fw-bold">
+            <div class="card shadow mb-4" >
+                <div class="card-header bg-custom-salida text-white fw-bold">
                     Registrar Salida de Vehículo
                 </div>
                 <div class="card-body">
@@ -130,7 +130,7 @@
                             @enderror
                         </div>
 
-                        <button class="btn btn-primary w-100 fw-bold">Registrar Salida</button>
+                        <button class="btn btn-custom-salida w-100 fw-bold">Registrar Salida</button>
                     </form>
 
                 </div>

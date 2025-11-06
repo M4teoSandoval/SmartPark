@@ -10,6 +10,7 @@
     background-color: #1D457D; /* Color similar al navbar */
     color: white;
     padding: 20px;
+
 }
 
 .sidebar-title {
@@ -89,4 +90,26 @@ button:hover {
 /* Fecha y hora */
 .datetime p {
     margin: 5px 0;
+}
+
+
+        
+/* Color personalizado para la Salida: #1D457D */
+
+.bg-custom-salida {
+    background-color: #1D457D !important; /* ¡Important para anular cualquier estilo de Bootstrap! */
+    color: white; /* Asegura que el texto sea blanco */
+}
+
+.btn-custom-salida {
+    background-color: #1D457D !important;
+    border-color: #1D457D;
+    color: white !important;
+}
+
+/* Opcional: Estilo al pasar el mouse (hover) para el botón */
+.btn-custom-salida:hover {
+    background-color: #14335a; /* Un tono un poco más oscuro que #1D457D */
+    border-color: #14335a;
+    color: white;
 }
