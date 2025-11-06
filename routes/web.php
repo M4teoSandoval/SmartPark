@@ -18,7 +18,7 @@ Route::get('/admin/dashboard', function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.home');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/tarifas', [AdminController::class, 'tarifas'])->name('admin.tarifas');
     Route::get('/admin/ingresos', [AdminController::class, 'ingresos'])->name('admin.ingresos');
     Route::get('/admin/salidas', [AdminController::class, 'salidas'])->name('admin.salidas');

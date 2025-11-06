@@ -1,7 +1,7 @@
 <aside class="sidebar">
     <h2 class="sidebar-title">ADMIN</h2>
     <ul class="sidebar-menu">
-        <li><a href="{{ route('admin.home') }}" class="{{ request()->routeIs('admin.home') ? 'active' : '' }}">Inicio</a></li>
+        <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Inicio</a></li>
         <li><a href="{{ route('admin.tarifas') }}" class="{{ request()->routeIs('admin.tarifas') ? 'active' : '' }}">Tarifas</a></li>
         <li><a href="{{ route('admin.ingresos') }}" class="{{ request()->routeIs('admin.ingresos') ? 'active' : '' }}">Ingresos</a></li>
         <li><a href="{{ route('admin.salidas') }}" class="{{ request()->routeIs('admin.salidas') ? 'active' : '' }}">Salidas</a></li>
