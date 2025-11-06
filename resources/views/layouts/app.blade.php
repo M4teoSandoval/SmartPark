@@ -7,6 +7,7 @@
     <!--<title>{{ config('app.name', 'SmartPark') }}</title>-->
     <title>SmartPark</title>
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
+     @stack('styles') <!-- Añadir esta línea -->
 
 
     <!-- Bootstrap CDN -->
