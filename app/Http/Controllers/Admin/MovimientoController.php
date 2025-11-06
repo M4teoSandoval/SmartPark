@@ -8,21 +8,20 @@ use App\Models\Movimiento;
 use App\Models\Vehiculo;
 use App\Models\Parqueadero;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class MovimientoController extends Controller
 {
     /**
-     * Mostrar vista de movimientos (entradas y salidas del día)
+     * Mostrar vista de movimientos
      */
     public function index()
     {
-        // ✅ Filtrar ENTRADAS del día
         $entradas = Movimiento::where('tipo', 'entrada')
             ->orderBy('fecha_hora', 'desc')
             ->take(10)
             ->get();
 
-        // ✅ Filtrar SALIDAS del día
         $salidas = Movimiento::where('tipo', 'salida')
             ->orderBy('fecha_hora', 'desc')
             ->take(10)
@@ -41,32 +40,42 @@ class MovimientoController extends Controller
             'tipo_vehiculo' => 'required|in:carro,moto',
         ]);
 
-        // ✅ Buscar si el vehículo ya existe
+        $placa = strtoupper(trim($request->placa));
+
+        // ✅ Buscar o crear vehículo
         $vehiculo = Vehiculo::firstOrCreate(
-            ['placa' => strtoupper($request->placa)],
+            ['placa' => $placa],
             [
                 'tipo_vehiculo' => $request->tipo_vehiculo,
-                'user_id' => Auth::id(), // por ahora el dueño es el admin
+                'user_id' => Auth::id(), // dueño temporal
             ]
         );
 
-        // ✅ Tomar el parqueadero que administra este usuario
-        // TEMPORAL: Si aún no tienes esa lógica usa uno por defecto
+        // ✅ Asociación al parqueadero (temporal: el primero)
         $parqueadero = Parqueadero::first();
-
         if (!$parqueadero) {
             return back()->with('error', 'No existe un parqueadero registrado.');
         }
 
-        // ✅ Registrar el movimiento
+        // ✅ Verificar último movimiento
+        $ultimoMovimiento = Movimiento::where('vehiculo_id', $vehiculo->id)
+            ->orderBy('fecha_hora', 'desc')
+            ->first();
+
+        // ❌ Si el último fue ENTRADA → YA ESTÁ DENTRO
+        if ($ultimoMovimiento && $ultimoMovimiento->tipo === 'entrada') {
+            return back()->with('error', "El vehículo {$placa} ya está dentro del parqueadero.");
+        }
+
+        // ✅ Registrar ENTRADA
         Movimiento::create([
-            'vehiculo_id'     => $vehiculo->id,
-            'parqueadero_id'  => $parqueadero->id,
-            'tipo'            => 'entrada',
-            'fecha_hora'      => now(),
+            'vehiculo_id'    => $vehiculo->id,
+            'parqueadero_id' => $parqueadero->id,
+            'tipo'           => 'entrada',
+            'fecha_hora'     => Carbon::now(),
         ]);
 
-        return back()->with('success', 'Entrada registrada correctamente.');
+        return back()->with('success', "Entrada registrada correctamente para la placa {$placa}.");
     }
 
     /**
@@ -78,25 +87,37 @@ class MovimientoController extends Controller
             'placa' => 'required|string|max:10',
         ]);
 
-        $vehiculo = Vehiculo::where('placa', strtoupper($request->placa))->first();
+        $placa = strtoupper(trim($request->placa));
+
+        $vehiculo = Vehiculo::where('placa', $placa)->first();
 
         if (!$vehiculo) {
-            return back()->with('error', 'El vehículo no existe.');
+            return back()->with('error', "El vehículo {$placa} no existe en el sistema.");
         }
 
         $parqueadero = Parqueadero::first();
-
         if (!$parqueadero) {
             return back()->with('error', 'No existe un parqueadero registrado.');
         }
 
+        // ✅ Obtener último registro
+        $ultimoMovimiento = Movimiento::where('vehiculo_id', $vehiculo->id)
+            ->orderBy('fecha_hora', 'desc')
+            ->first();
+
+        // ❌ Si NO existe entrada o el último movimiento fue SALIDA → no puede salir
+        if (!$ultimoMovimiento || $ultimoMovimiento->tipo !== 'entrada') {
+            return back()->with('error', "El vehículo {$placa} no tiene una entrada registrada.");
+        }
+
+        // ✅ Registrar SALIDA
         Movimiento::create([
-            'vehiculo_id'     => $vehiculo->id,
-            'parqueadero_id'  => $parqueadero->id,
-            'tipo'            => 'salida',
-            'fecha_hora'      => now(),
+            'vehiculo_id'    => $vehiculo->id,
+            'parqueadero_id' => $parqueadero->id,
+            'tipo'           => 'salida',
+            'fecha_hora'     => Carbon::now(),
         ]);
 
-        return back()->with('success', 'Salida registrada correctamente.');
+        return back()->with('success', "Salida registrada correctamente para la placa {$placa}.");
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\MovimientoController;
+use App\Http\Controllers\Admin\TarifaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,4 +42,15 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/movimientos/salida', [MovimientoController::class, 'registrarSalida'])
         ->name('admin.movimientos.salida');
+
+
+
+    Route::get('/admin/tarifas', [TarifaController::class, 'index'])
+        ->name('admin.tarifas');
+
+    Route::post('/admin/tarifas', [TarifaController::class, 'store'])
+        ->name('admin.tarifas.store');
+
+    Route::delete('/admin/tarifas/{id}', [TarifaController::class, 'destroy'])
+        ->name('admin.tarifas.delete');
 });
