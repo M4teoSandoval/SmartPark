@@ -8,25 +8,7 @@
 
 @section('content')
     <div class="dashboard-container">
-        {{-- Sidebar --}}
-        <aside class="sidebar">
-            <h2 class="sidebar-title">ADMIN</h2>
-            <ul class="sidebar-menu">
-                <ul class="sidebar-menu">
-                    <li><a href="{{ route('admin.dashboard') }}">Inicio</a></li>
-                    <li><a href="{{ route('admin.tarifas') }}">Tarifas</a></li>
-                    <li><a href="{{ route('admin.ingresos') }}">Ingresos</a></li>
-                    <li><a href="{{ route('admin.salidas') }}">Salidas</a></li>
-                    <li><a href="{{ route('admin.abonados') }}">Abonados</a></li>
-                    <li><a href="{{ route('admin.caja') }}">Caja</a></li>
-                    <li><a href="{{ route('admin.pagos') }}">Pagos</a></li>
-                    <li><a href="{{ route('admin.reportes') }}">Reportes</a></li>
-                    <li><a href="{{ route('admin.usuarios') }}">Usuarios</a></li>
-                    <li><a href="{{ route('admin.ajustes') }}">Ajustes</a></li>
-                </ul>
-
-            </ul>
-        </aside>
+        @include('admin.sidebar')
 
         {{-- Contenido principal --}}
         <section class="main-content">
