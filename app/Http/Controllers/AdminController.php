@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parqueadero;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -38,7 +39,11 @@ class AdminController extends Controller
         return view('admin.usuarios');
     }
 
-    public function ajustes() {
-        return view('admin.ajustes');
+    public function ajustes()
+    {
+        // Obtener el parqueadero del usuario logueado (por ahora el primero)
+        $parqueadero = Parqueadero::first();
+
+        return view('admin.ajustes', compact('parqueadero'));
     }
 }

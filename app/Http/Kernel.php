@@ -56,5 +56,6 @@ class Kernel extends HttpKernel
 
         // ✅ Tu middleware personalizado (para ajustes de parqueadero)
         'parqueadero' => \App\Http\Middleware\VerificarParqueadero::class,
+
     ];
 }

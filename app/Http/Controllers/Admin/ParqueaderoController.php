@@ -9,19 +9,28 @@ use Illuminate\Support\Facades\Auth;
 
 class ParqueaderoController extends Controller
 {
-    // ✅ Mostrar configuración del parqueadero
+    /**
+     * ✅ Mostrar la configuración del parqueadero
+     * Solo muestra el parqueadero del usuario logueado.
+     */
     public function index()
     {
-        // Por ahora tomamos el primer parqueadero
-        // Luego lo relacionamos con el admin logueado
-        $parqueadero = Parqueadero::first();
+        // Buscar parqueadero del usuario logueado
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
 
         return view('admin.parqueadero.index', compact('parqueadero'));
     }
 
-    // ✅ Crear parqueadero si aún no existe
+    /**
+     * ✅ Crear parqueadero si aún no existe
+     */
     public function store(Request $request)
     {
+        // Si ya tiene parqueadero, no permitir crear otro
+        if (Parqueadero::where('propietario_id', Auth::id())->exists()) {
+            return back()->with('error', 'Ya tienes un parqueadero registrado.');
+        }
+
         $request->validate([
             'nombre' => 'required',
             'direccion' => 'required',
@@ -43,7 +52,9 @@ class ParqueaderoController extends Controller
     }
 
 
-    // ✅ Actualizar parqueadero existente
+    /**
+     * ✅ Editar parqueadero existente (solo si es del usuario)
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -54,17 +65,19 @@ class ParqueaderoController extends Controller
             'capacidad_motos' => 'required|integer|min:0',
         ]);
 
-        $parqueadero = Parqueadero::findOrFail($id);
+        // Buscar parqueadero del usuario
+        $parqueadero = Parqueadero::where('id', $id)
+            ->where('propietario_id', Auth::id())
+            ->firstOrFail();
 
         $parqueadero->update([
             'nombre' => $request->nombre,
             'direccion' => $request->direccion,
             'ciudad' => $request->ciudad,
             'capacidad_carros' => $request->capacidad_carros,
-            'capacidad_motos' => $request->capacidad_motos,
+            'capacidad_motos' => $request->capacidad_motos, 
         ]);
 
         return back()->with('success', 'Parqueadero actualizado correctamente.');
     }
 }
-    

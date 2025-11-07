@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Configuración del Parqueadero')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+@endpush
 
 @section('content')
 
@@ -12,19 +15,23 @@
 
         <h1 class="mb-4">Configuración del Parqueadero</h1>
 
-        {{-- Alertas --}}
+        {{-- ✅ Alertas --}}
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        {{-- Si NO existe parqueadero -> formulario crear --}}
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        {{-- ✅ Si NO existe parqueadero -> formulario para crear --}}
         @if (!$parqueadero)
             <div class="card shadow mb-4">
                 <div class="card-header bg-success text-white fw-bold">
                     Registrar Parqueadero
                 </div>
-                <div class="card-body">
 
+                <div class="card-body">
                     <form method="POST" action="{{ route('admin.parqueadero.store') }}">
                         @csrf
 
@@ -55,56 +62,51 @@
                         </div>
 
                         <button class="btn btn-success w-100">Guardar</button>
-
                     </form>
-
                 </div>
             </div>
 
         @else
 
-        {{-- ✅ SI EXISTE PARQUEADERO -> mostrar datos + editar --}}
+        {{-- ✅ Existe parqueadero: formulario editar --}}
         <div class="card shadow">
             <div class="card-header bg-primary text-white fw-bold">
                 Parqueadero Registrado
             </div>
 
             <div class="card-body">
-
                 <form method="POST" action="{{ route('admin.parqueadero.update', $parqueadero->id) }}">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-3">
                         <label class="fw-semibold">Nombre</label>
-                        <input type="text" name="nombre" value="{{ $parqueadero->nombre }}" class="form-control">
+                        <input type="text" name="nombre" value="{{ $parqueadero->nombre }}" class="form-control" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="fw-semibold">Dirección</label>
-                        <input type="text" name="direccion" value="{{ $parqueadero->direccion }}" class="form-control">
+                        <input type="text" name="direccion" value="{{ $parqueadero->direccion }}" class="form-control" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="fw-semibold">Ciudad</label>
-                        <input type="text" name="ciudad" value="{{ $parqueadero->ciudad }}" class="form-control">
+                        <input type="text" name="ciudad" value="{{ $parqueadero->ciudad }}" class="form-control" required>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="fw-semibold">Capacidad Carros</label>
-                            <input type="number" name="capacidad_carros" value="{{ $parqueadero->capacidad_carros }}" class="form-control">
+                            <input type="number" name="capacidad_carros" value="{{ $parqueadero->capacidad_carros }}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label class="fw-semibold">Capacidad Motos</label>
-                            <input type="number" name="capacidad_motos" value="{{ $parqueadero->capacidad_motos }}" class="form-control">
+                            <input type="number" name="capacidad_motos" value="{{ $parqueadero->capacidad_motos }}" class="form-control" required>
                         </div>
                     </div>
 
                     <button class="btn btn-primary w-100">Actualizar</button>
-
                 </form>
-
             </div>
         </div>
 

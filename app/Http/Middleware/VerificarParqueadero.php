@@ -3,24 +3,26 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
-use App\Models\Parqueadero;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Parqueadero;
 
 class VerificarParqueadero
 {
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
-        // Solo aplica para usuarios administradores (role_id = 1)
-        if (Auth::check() && Auth::user()->role_id == 1) {
+        $user = Auth::user();
 
-            $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
+        // ✅ Si no hay usuario autenticado
+        if (!$user) {
+            return redirect('/login');
+        }
 
-            // Si NO tiene parqueadero, enviarlo a registrar
-            if (!$parqueadero && !$request->is('admin/parqueadero*')) {
-                return redirect()->route('admin.parqueadero.form')
-                                 ->with('warning', 'Debes registrar tu parqueadero antes de continuar.');
-            }
+        // ✅ Verificar si el usuario tiene un parqueadero registrado
+        $parqueadero = Parqueadero::where('propietario_id', $user->id)->first();
+
+        if (!$parqueadero) {
+            return redirect()->route('admin.parqueadero')
+                ->with('error', 'Debes registrar los datos de tu parqueadero antes de continuar.');
         }
 
         return $next($request);
