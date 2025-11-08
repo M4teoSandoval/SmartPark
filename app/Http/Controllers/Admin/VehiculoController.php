@@ -89,17 +89,5 @@ class VehiculoController extends Controller
         return redirect()->route('admin.vehiculos')->with('success', 'Vehículo actualizado.');
     }
 
-    // ✅ Eliminar
-    public function destroy($id)
-    {
-        $vehiculo = Vehiculo::findOrFail($id);
-
-        // Bloquear si tiene movimientos
-        if ($vehiculo->movimientos()->exists()) {
-            return back()->with('error', 'No se puede eliminar, tiene movimientos.');
-        }
-
-        $vehiculo->delete();
-        return back()->with('success', 'Vehículo eliminado.');
-    }
+    
 }

@@ -79,9 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/vehiculos/{id}', [VehiculoController::class, 'update'])
         ->name('admin.vehiculos.update');
 
-    Route::delete('/admin/vehiculos/{id}', [VehiculoController::class, 'destroy'])
-        ->name('admin.vehiculos.delete');
-
+    
     //Transacciones
     Route::get('/admin/transacciones', [TransaccionController::class, 'index'])
         ->name('admin.transacciones');
