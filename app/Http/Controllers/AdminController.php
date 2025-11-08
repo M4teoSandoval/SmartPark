@@ -27,8 +27,8 @@ class AdminController extends Controller
         return view('admin.caja');
     }
 
-    public function pagos() {
-        return view('admin.pagos');
+    public function transacciones() {
+        return view('admin.transacciones');
     }
 
     public function reportes() {

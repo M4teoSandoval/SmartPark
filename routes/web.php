@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\MovimientoController;
 use App\Http\Controllers\Admin\ParqueaderoController;
 use App\Http\Controllers\Admin\TarifaController;
+use App\Http\Controllers\Admin\TransaccionController;
 use App\Http\Controllers\Admin\VehiculoController;
 use App\Http\Controllers\HomeController;
 
@@ -53,7 +54,6 @@ Route::middleware(['auth'])->group(function () {
     // ✅ Otras secciones
     Route::get('/admin/abonados', [AdminController::class, 'abonados'])->name('admin.abonados');
     Route::get('/admin/caja', [AdminController::class, 'caja'])->name('admin.caja');
-    Route::get('/admin/pagos', [AdminController::class, 'pagos'])->name('admin.pagos');
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
     Route::get('/admin/ajustes', [ParqueaderoController::class, 'index'])
@@ -81,4 +81,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/admin/vehiculos/{id}', [VehiculoController::class, 'destroy'])
         ->name('admin.vehiculos.delete');
+
+    //Transacciones
+    Route::get('/admin/transacciones', [TransaccionController::class, 'index'])
+        ->name('admin.transacciones');
+
+
+
+    
+
 });

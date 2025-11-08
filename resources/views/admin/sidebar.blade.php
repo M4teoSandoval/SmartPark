@@ -8,7 +8,7 @@
         <li><a href="{{ route('admin.abonados') }}" class="{{ request()->routeIs('admin.abonados') ? 'active' : '' }}">Mensualidades</a></li>
         <li><a href="{{ route('admin.vehiculos') }}" class="{{ request()->routeIs('admin.vehiculos') ? 'active' : '' }}">Vehiculo</a></li>
         <li><a href="{{ route('admin.usuarios') }}" class="{{ request()->routeIs('admin.usuarios') ? 'active' : '' }}">Usuarios</a></li>
-        <li><a href="{{ route('admin.pagos') }}" class="{{ request()->routeIs('admin.pagos') ? 'active' : '' }}">Transacciones</a></li>
+        <li><a href="{{ route('admin.transacciones') }}" class="{{ request()->routeIs('admin.transacciones') ? 'active' : '' }}">Transacciones</a></li>
         <li><a href="{{ route('admin.reportes') }}" class="{{ request()->routeIs('admin.reportes') ? 'active' : '' }}">Reportes</a></li>
         
             
