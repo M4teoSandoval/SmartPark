@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Vehiculo;
 use App\Models\Movimiento;
 use Illuminate\Http\Request;
+use App\Models\Parqueadero;
+
 
 
 class VehiculoController extends Controller
@@ -13,9 +15,17 @@ class VehiculoController extends Controller
     // ✅ Listar vehículos
     public function index()
     {
-        $vehiculos = Vehiculo::with(['movimientos' => function ($q) {
-            $q->orderBy('fecha_hora', 'desc')->limit(1);
-        }])->get();
+        $parqueadero = Parqueadero::where('propietario_id', auth()->id())->first();
+
+        $vehiculos = Vehiculo::whereHas('movimientos', function ($q) use ($parqueadero) {
+            $q->where('parqueadero_id', $parqueadero->id);
+        })
+            ->with(['movimientos' => function ($q) use ($parqueadero) {
+                $q->where('parqueadero_id', $parqueadero->id)
+                    ->orderBy('fecha_hora', 'desc')
+                    ->limit(1);
+            }])
+            ->get();
 
         return view('admin.vehiculos.index', compact('vehiculos'));
     }
