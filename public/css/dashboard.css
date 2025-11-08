@@ -1,61 +1,119 @@
-/* Layout del dashboard */
+/* =============================
+   Layout general del dashboard
+============================= */
 .dashboard-container {
     display: flex;
-    min-height: calc(100vh - 70px); /* Altura del navbar si lo quieres fijo */
+    min-height: 100vh;
+    background-color: #f4f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Sidebar */
+/* =============================
+   Sidebar
+============================= */
 .sidebar {
     width: 240px;
-    background-color: #1D457D; /* Color similar al navbar */
+    background-color: #1D457D;
     color: white;
-    padding: 20px;
+    padding: 30px 20px;
+    position: fixed;
+    top: 70px; 
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    z-index: 1000;
 
+
+}
+
+.sidebar.collapsed {
+    width: 70px;
 }
 
 .sidebar-title {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: #2CA6D0;
+    font-size: 1.8em;
+    margin-bottom: 30px;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
 }
 
 .sidebar-menu {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .sidebar-menu li {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .sidebar-menu li a {
     color: white;
     text-decoration: none;
-    display: block;
-    padding: 8px 12px;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.sidebar-menu li a .icon {
+    margin-right: 10px;
+    font-size: 1.2em;
 }
 
 .sidebar-menu li a:hover {
     background-color: #0F3057;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
 }
 
-/* Contenido principal */
+.sidebar-menu li a.active {
+    background: linear-gradient(90deg, #2CA6D0, #1D457D);
+    border-left: 4px solid #FFCB05;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+/* =============================
+   Contenido principal
+============================= */
 .main-content {
     flex: 1;
-    background-color: white;
+    margin-left: 260px;
     padding: 30px;
-    margin-left: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    transition: margin-left 0.3s ease;
+    margin-top: 70px;
+}
+
+.sidebar.collapsed ~ .main-content {
+    margin-left: 80px;
 }
 
 .main-content h1 {
     color: #1D457D;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-weight: 700;
 }
 
-/* Formulario */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.12);
+}
+
+/* =============================
+   Formularios
+============================= */
 .form-group {
     margin-bottom: 15px;
 }
@@ -63,42 +121,49 @@
 .form-group label {
     display: block;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    color: #1D457D;
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
 }
 
-button {
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2CA6D0;
+    outline: none;
+}
+
+/* =============================
+   Botones
+============================= */
+button,
+.btn {
     background-color: #2CA6D0;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
+button:hover,
+.btn:hover {
     background-color: #1D457D;
+    transform: translateY(-2px);
 }
-
-/* Fecha y hora */
-.datetime p {
-    margin: 5px 0;
-}
-
-
-        
-/* Color personalizado para la Salida: #1D457D */
 
 .bg-custom-salida {
-    background-color: #1D457D !important; /* ¡Important para anular cualquier estilo de Bootstrap! */
-    color: white; /* Asegura que el texto sea blanco */
+    background-color: #1D457D !important;
+    color: white;
 }
 
 .btn-custom-salida {
@@ -107,9 +172,85 @@ button:hover {
     color: white !important;
 }
 
-/* Opcional: Estilo al pasar el mouse (hover) para el botón */
 .btn-custom-salida:hover {
-    background-color: #14335a; /* Un tono un poco más oscuro que #1D457D */
+    background-color: #14335a;
     border-color: #14335a;
+    color: white !important;
+}
+
+/* =============================
+   Tablas
+============================= */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #1D457D;
     color: white;
+    font-weight: 600;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f4f7fa;
+}
+
+.table tr:hover {
+    background-color: #e0ebf7;
+}
+
+/* =============================
+   Alertas
+============================= */
+.alert {
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* =============================
+   Fecha y hora
+============================= */
+#hora, #fecha {
+    font-weight: 600;
+    color: #1D457D;
+}
+
+/* =============================
+   Responsive
+============================= */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 70px;
+        padding: 20px 10px;
+    }
+    .main-content {
+        margin-left: 80px;
+    }
+    .sidebar-title {
+        font-size: 1.2em;
+        text-align: center;
+    }
 }
