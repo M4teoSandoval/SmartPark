@@ -13,14 +13,24 @@ return new class extends Migration
     {
         Schema::create('movimientos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vehiculo_id')->constrained('vehiculos');
-            $table->foreignId('parqueadero_id')->constrained('parqueaderos');
+
+            $table->foreignId('vehiculo_id')
+                ->constrained('vehiculos')
+                ->onDelete('cascade');
+
+            $table->foreignId('parqueadero_id')
+                ->constrained('parqueaderos')
+                ->onDelete('cascade');
+
+            $table->foreignId('user_id')     // ✅ ESTE ES EL QUE FALTABA
+                ->constrained('users')
+                ->onDelete('cascade');
+
             $table->enum('tipo', ['entrada', 'salida']);
             $table->dateTime('fecha_hora');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

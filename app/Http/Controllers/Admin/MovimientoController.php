@@ -17,18 +17,25 @@ class MovimientoController extends Controller
      */
     public function index()
     {
-        $entradas = Movimiento::where('tipo', 'entrada')
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
+
+        $entradas = Movimiento::where('user_id', Auth::id())
+            ->where('parqueadero_id', $parqueadero->id)
+            ->where('tipo', 'entrada')
             ->orderBy('fecha_hora', 'desc')
             ->take(10)
             ->get();
 
-        $salidas = Movimiento::where('tipo', 'salida')
+        $salidas = Movimiento::where('user_id', Auth::id())
+            ->where('parqueadero_id', $parqueadero->id)
+            ->where('tipo', 'salida')
             ->orderBy('fecha_hora', 'desc')
             ->take(10)
             ->get();
 
         return view('admin.movimientos', compact('entradas', 'salidas'));
     }
+
 
     /**
      * ✅ REGISTRAR UNA ENTRADA
@@ -52,13 +59,14 @@ class MovimientoController extends Controller
         );
 
         // ✅ Asociación al parqueadero (temporal: el primero)
-        $parqueadero = Parqueadero::first();
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
         if (!$parqueadero) {
             return back()->with('error', 'No existe un parqueadero registrado.');
         }
 
         // ✅ Verificar último movimiento
         $ultimoMovimiento = Movimiento::where('vehiculo_id', $vehiculo->id)
+            ->where('parqueadero_id', $parqueadero->id)   // ← este es el cambio
             ->orderBy('fecha_hora', 'desc')
             ->first();
 
@@ -71,9 +79,11 @@ class MovimientoController extends Controller
         Movimiento::create([
             'vehiculo_id'    => $vehiculo->id,
             'parqueadero_id' => $parqueadero->id,
+            'user_id'        => auth()->id(),
             'tipo'           => 'entrada',
             'fecha_hora'     => Carbon::now(),
         ]);
+
 
         return back()->with('success', "Entrada registrada correctamente para la placa {$placa}.");
     }
@@ -95,7 +105,7 @@ class MovimientoController extends Controller
             return back()->with('error', "El vehículo {$placa} no existe en el sistema.");
         }
 
-        $parqueadero = Parqueadero::first();
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
         if (!$parqueadero) {
             return back()->with('error', 'No existe un parqueadero registrado.');
         }
@@ -114,6 +124,7 @@ class MovimientoController extends Controller
         Movimiento::create([
             'vehiculo_id'    => $vehiculo->id,
             'parqueadero_id' => $parqueadero->id,
+            'user_id'        => auth()->id(),
             'tipo'           => 'salida',
             'fecha_hora'     => Carbon::now(),
         ]);

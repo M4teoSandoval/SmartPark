@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\MovimientoController;
 use App\Http\Controllers\Admin\ParqueaderoController;
 use App\Http\Controllers\Admin\TarifaController;
+use App\Http\Controllers\Admin\VehiculoController;
 use App\Http\Controllers\HomeController;
 
 // Página principal
@@ -56,6 +57,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
     Route::get('/admin/ajustes', [ParqueaderoController::class, 'index'])
-    ->name('admin.ajustes');
+        ->name('admin.ajustes');
 
+
+    // ✅ VEHÍCULOS
+    Route::get('/admin/vehiculos', [VehiculoController::class, 'index'])
+        ->name('admin.vehiculos');
+
+    Route::get('/admin/vehiculos/create', [VehiculoController::class, 'create'])
+        ->name('admin.vehiculos.create');
+
+    Route::post('/admin/vehiculos', [VehiculoController::class, 'store'])
+        ->name('admin.vehiculos.store');
+
+    Route::get('/admin/vehiculos/{id}', [VehiculoController::class, 'show'])
+        ->name('admin.vehiculos.show');
+
+    Route::get('/admin/vehiculos/{id}/edit', [VehiculoController::class, 'edit'])
+        ->name('admin.vehiculos.edit');
+
+    Route::put('/admin/vehiculos/{id}', [VehiculoController::class, 'update'])
+        ->name('admin.vehiculos.update');
+
+    Route::delete('/admin/vehiculos/{id}', [VehiculoController::class, 'destroy'])
+        ->name('admin.vehiculos.delete');
 });
