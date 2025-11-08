@@ -6,26 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('movimientos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vehiculo_id')->constrained('vehiculos');
-            $table->foreignId('parqueadero_id')->constrained('parqueaderos');
+
+            $table->foreignId('vehiculo_id')
+                ->constrained('vehiculos')
+                ->onDelete('cascade');
+
+            $table->foreignId('parqueadero_id')
+                ->constrained('parqueaderos')
+                ->onDelete('cascade');
+
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+
             $table->enum('tipo', ['entrada', 'salida']);
             $table->dateTime('fecha_hora');
+
+            // ✅ nuevos campos para cobro
+            $table->decimal('monto', 10, 2)->nullable();
+            $table->string('metodo_pago')->nullable();
+
             $table->timestamps();
         });
     }
 
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('movimientos');
     }

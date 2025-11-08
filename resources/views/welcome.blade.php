@@ -15,7 +15,7 @@
     <!-- 🌐 Navbar -->
     <nav class="navbar navbar-expand-lg bg-white shadow-sm py-2 fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
-            <!-- Logo + nombre -->
+            <!-- Logo y nombre -->
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="SmartPark" width="50" class="me-2">
                 <span class="fw-bold" style="color: #1D457D;">Smart<span style="color: #2CA6D0;">Park</span></span>

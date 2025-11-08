@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tarifas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parqueadero_id')->constrained('parqueaderos')->onDelete('cascade');
+            $table->foreignId('parqueadero_id')->nullable()->constrained('parqueaderos')->onDelete('cascade');
 
             $table->string('tipo_vehiculo');
             $table->decimal('valor_minuto', 10, 2);

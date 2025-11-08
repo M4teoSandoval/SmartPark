@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
     <div class="container d-flex justify-content-between align-items-center">
         <!-- Logo y nombre -->
         <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">

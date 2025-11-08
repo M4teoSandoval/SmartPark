@@ -1,64 +1,122 @@
 @extends('layouts.app')
 
-@section('title', 'Panel del Administrador')
+@section('title', 'Dashboard Admin')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 @endpush
 
 @section('content')
-    <div class="dashboard-container">
-        @include('admin.sidebar')
+<div class="dashboard-container">
 
-        {{-- Contenido principal --}}
-        <section class="main-content">
-            <h1>Registrar ingreso de vehículo</h1>
+    {{-- Sidebar del admin --}}
+    @include('admin.sidebar')
 
-            <form class="form">
-                <div class="form-group">
-                    <label>Placa del vehículo</label>
-                    <input type="text" placeholder="Ej: ABC123">
+    <section class="main-content">
+        <h1 class="mb-4">Panel de Administración</h1>
+
+        {{-- Estadísticas rápidas --}}
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Vehículos</h5>
+                        <p class="card-text fs-3">{{ $totalVehiculos }}</p>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label>Clase de vehículo</label>
-                    <select>
-                        <option>Auto</option>
-                        <option>Moto</option>
-                        <option>Camioneta</option>
-                        <option>Bus</option>
-                    </select>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-success shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Entradas hoy</h5>
+                        <p class="card-text fs-3">{{ $entradasHoy }}</p>
+                    </div>
                 </div>
-
-                <div class="datetime">
-                    <p><strong>Hora actual:</strong> <span id="hora">{{ now()->format('h:i:s A') }}</span></p>
-                    <p><strong>Fecha:</strong> <span
-                            id="fecha">{{ now()->translatedFormat('l, d \\de F \\de Y') }}</span></p>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Salidas hoy</h5>
+                        <p class="card-text fs-3">{{ $salidasHoy }}</p>
+                    </div>
                 </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Transacciones</h5>
+                        <p class="card-text fs-3">{{ $totalTransacciones }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <button type="submit">Ingresar</button>
-            </form>
-        </section>
-    </div>
+        {{-- Entradas recientes --}}
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white fw-bold">
+                Entradas recientes
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Vehículo</th>
+                            <th>Tipo</th>
+                            <th>Parqueadero</th>
+                            <th>Fecha y Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($entradasRecientes as $entrada)
+                        <tr>
+                            <td>{{ $entrada->vehiculo->placa }}</td>
+                            <td>{{ ucfirst($entrada->vehiculo->tipo_vehiculo) }}</td>
+                            <td>{{ $entrada->parqueadero->nombre ?? 'N/A' }}</td>
+                            <td>{{ $entrada->fecha_hora }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Sin entradas recientes</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <script>
-        function actualizarHora() {
-            const ahora = new Date();
-            const opcionesHora = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            const opcionesFecha = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            document.getElementById('hora').textContent = ahora.toLocaleTimeString('es-ES', opcionesHora);
-            document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-ES', opcionesFecha);
-        }
-        setInterval(actualizarHora, 1000);
-    </script>
+        {{-- Salidas recientes --}}
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white fw-bold">
+                Salidas recientes
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Vehículo</th>
+                            <th>Tipo</th>
+                            <th>Parqueadero</th>
+                            <th>Fecha y Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($salidasRecientes as $salida)
+                        <tr>
+                            <td>{{ $salida->vehiculo->placa }}</td>
+                            <td>{{ ucfirst($salida->vehiculo->tipo_vehiculo) }}</td>
+                            <td>{{ $salida->parqueadero->nombre ?? 'N/A' }}</td>
+                            <td>{{ $salida->fecha_hora }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Sin salidas recientes</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+</div>
 @endsection
