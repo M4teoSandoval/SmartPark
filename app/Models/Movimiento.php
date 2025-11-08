@@ -14,6 +14,11 @@ class Movimiento extends Model
         'fecha_hora'
     ];
 
+    protected $casts = [
+        'fecha_hora' => 'datetime',
+    ];
+
+
     public function vehiculo()
     {
         return $this->belongsTo(Vehiculo::class);

@@ -112,7 +112,7 @@
             {{-- ============================= --}}
             {{-- REGISTRAR SALIDA --}}
             {{-- ============================= --}}
-            <div class="card shadow mb-4" >
+            <div class="card shadow mb-4">
                 <div class="card-header bg-custom-salida text-white fw-bold">
                     Registrar Salida de Vehículo
                 </div>
@@ -130,11 +130,27 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label class="fw-semibold">Método de pago</label>
+                            <select name="metodo_pago" class="form-control @error('metodo_pago') is-invalid @enderror"
+                                required>
+                                <option disabled selected>Seleccionar...</option>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="tarjeta">Tarjeta</option>
+                                <option value="nequi">Nequi</option>
+                                <option value="daviplata">Daviplata</option>
+                            </select>
+                            @error('metodo_pago')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <button class="btn btn-custom-salida w-100 fw-bold">Registrar Salida</button>
                     </form>
 
                 </div>
             </div>
+
 
             {{-- LISTA DE SALIDAS --}}
             <h4 class="fw-bold mt-4">Vehículos que han salido hoy</h4>
