@@ -1,36 +1,110 @@
- body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .hero {
-            background: linear-gradient(to right, #e9f7ef, #d1f2eb);
-            padding: 80px 0;
-        }
-        .hero img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .hero h1 {
-            color: #004aad;
-            font-weight: 700;
-        }
-        .btn-green {
-            background-color: #32cd32;
-            color: white;
-            border-radius: 30px;
-            padding: 10px 25px;
-            font-weight: 500;
-        }
-        .btn-green:hover {
-            background-color: #28a745;
-            color: white;
-        }
-        footer {
-            background-color: #003366;
-            color: white;
-            padding: 20px 0;
-            font-size: 14px;
-        }
-        .features i {
-            font-size: 40px;
-            color: #28a745;
-        }
+/* === Navbar === */
+.nav-link {
+  color: #1a1a1a;
+  transition: 0.3s;
+  position: relative;
+}
+.nav-link:hover {
+  color: #2ecc71;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #2ecc71;
+  transition: width 0.3s;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* === Hero Section === */
+.hero {
+  height: 100vh;
+  background: linear-gradient(to right, #d6f5e3, #f8fdfc);
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+.fade-in-delay {
+  opacity: 0;
+  animation: fadeIn 1s ease 0.4s forwards;
+}
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  animation: slideInRight 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* === Tarjetas === */
+.hover-up {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.hover-up:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+
+.feature-card {
+  border: 1px solid #e9ecef;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-color: #28a745;
+}
+
+.icon-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-light-blue {
+  background-color: #e9f3ff;
+}
+
+.bg-light-green {
+  background-color: #e6f8ec;
+}
+
+/* Animaciones suaves */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+.fade-in-delay {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
