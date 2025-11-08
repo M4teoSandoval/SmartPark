@@ -18,7 +18,7 @@ class ParqueaderoController extends Controller
         // Buscar parqueadero del usuario logueado
         $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
 
-        return view('admin.parqueadero.index', compact('parqueadero'));
+        return view('admin.ajustes', compact('parqueadero'));
     }
 
     /**
@@ -48,7 +48,8 @@ class ParqueaderoController extends Controller
             'propietario_id' => Auth::id(),
         ]);
 
-        return back()->with('success', 'Parqueadero registrado correctamente.');
+        return redirect()->route('admin.ajustes')->with('success', 'Parqueadero actualizado.');
+
     }
 
 
@@ -78,6 +79,7 @@ class ParqueaderoController extends Controller
             'capacidad_motos' => $request->capacidad_motos, 
         ]);
 
-        return back()->with('success', 'Parqueadero actualizado correctamente.');
+        return redirect()->route('admin.ajustes')->with('success', 'Parqueadero actualizado.');
+
     }
 }

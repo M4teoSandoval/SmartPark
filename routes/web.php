@@ -55,5 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pagos', [AdminController::class, 'pagos'])->name('admin.pagos');
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
-    Route::get('/admin/ajustes', [AdminController::class, 'ajustes'])->name('admin.ajustes');
+    Route::get('/admin/ajustes', [ParqueaderoController::class, 'index'])
+    ->name('admin.ajustes');
+
 });
