@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\MovimientoController;
@@ -24,7 +25,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // ✅ PARQUEADERO
     Route::get('/admin/parqueadero', [ParqueaderoController::class, 'index'])
@@ -53,7 +54,6 @@ Route::middleware(['auth'])->group(function () {
 
     // ✅ Otras secciones
     Route::get('/admin/abonados', [AdminController::class, 'abonados'])->name('admin.abonados');
-    Route::get('/admin/caja', [AdminController::class, 'caja'])->name('admin.caja');
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
     Route::get('/admin/ajustes', [ParqueaderoController::class, 'index'])
@@ -85,6 +85,9 @@ Route::middleware(['auth'])->group(function () {
     //Transacciones
     Route::get('/admin/transacciones', [TransaccionController::class, 'index'])
         ->name('admin.transacciones');
+
+
+    
 
 
 
