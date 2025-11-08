@@ -2,43 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parqueadero;
 use Illuminate\Http\Request;
+use App\Models\Vehiculo;
+use App\Models\Movimiento;
+use App\Models\Transaccion;
 
 class AdminController extends Controller
 {
-    public function index() {
-        return view('admin.inicio');
-    }
+   
 
-    public function tarifas() {
+    public function tarifas()
+    {
         return view('admin.tarifas');
     }
 
-    public function movimientos() {
+    public function movimientos()
+    {
         return view('admin.movimientos');
     }
 
-    public function abonados() {
+    public function abonados()
+    {
         return view('admin.abonados');
     }
 
-    public function caja() {
+    public function caja()
+    {
         return view('admin.caja');
     }
 
-    public function pagos() {
-        return view('admin.pagos');
+    public function transacciones()
+    {
+        return view('admin.transacciones');
     }
 
-    public function reportes() {
+    public function reportes()
+    {
         return view('admin.reportes');
     }
 
-    public function usuarios() {
+    public function usuarios()
+    {
         return view('admin.usuarios');
     }
 
-    public function ajustes() {
-        return view('admin.ajustes');
+    public function ajustes()
+    {
+        // Obtener el parqueadero del usuario logueado (por ahora el primero)
+        $parqueadero = Parqueadero::first();
+
+        return view('admin.ajustes', compact('parqueadero'));
     }
+
 }

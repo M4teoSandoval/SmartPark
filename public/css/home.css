@@ -1,36 +1,272 @@
- body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .hero {
-            background: linear-gradient(to right, #e9f7ef, #d1f2eb);
-            padding: 80px 0;
-        }
-        .hero img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .hero h1 {
-            color: #004aad;
-            font-weight: 700;
-        }
-        .btn-green {
-            background-color: #32cd32;
-            color: white;
-            border-radius: 30px;
-            padding: 10px 25px;
-            font-weight: 500;
-        }
-        .btn-green:hover {
-            background-color: #28a745;
-            color: white;
-        }
-        footer {
-            background-color: #003366;
-            color: white;
-            padding: 20px 0;
-            font-size: 14px;
-        }
-        .features i {
-            font-size: 40px;
-            color: #28a745;
-        }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+
+/* === Navbar === */
+.nav-link {
+  color: #1a1a1a;
+  transition: 0.3s;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #2ecc71;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #2ecc71;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* === Hero Section === */
+.hero {
+  height: 100vh;
+  background: linear-gradient(to right, #d6f5e3, #f8fdfc);
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+.fade-in-delay {
+  opacity: 0;
+  animation: fadeIn 1s ease 0.4s forwards;
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  animation: slideInRight 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* === Tarjetas === */
+.hover-up {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hover-up:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+
+.feature-card {
+  border: 1px solid #e9ecef;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-color: #28a745;
+}
+
+.icon-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-light-blue {
+  background-color: #e9f3ff;
+}
+
+.bg-light-green {
+  background-color: #e6f8ec;
+}
+
+/* Animaciones suaves */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.fade-in-delay {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feature-card {
+  transition: transform .18s ease, box-shadow .18s ease;
+  cursor: default;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+.icon-box {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.bg-light-blue {
+  background: rgba(13, 110, 253, 0.08);
+}
+
+.bg-light-green {
+  background: rgba(25, 135, 84, 0.08);
+}
+
+.icon-box .bi {
+  font-size: 1.6rem;
+}
+
+
+/* colores forzados */
+.comparison-table .text-danger {
+  color: #dc3545 !important;
+}
+
+.comparison-table .text-success {
+  color: #198754 !important;
+}
+
+/* iconos más grandes y visualmente "gruesos" */
+.comparison-table .bi {
+  font-size: 1.6rem;
+  /* aumenta tamaño */
+  vertical-align: -0.12rem;
+  line-height: 1;
+}
+
+/* añadir sombra ligera para dar peso al icono (usa el mismo color) */
+.comparison-table .text-success .bi,
+.comparison-table .text-danger .bi {
+  text-shadow: 0 0 0.6px currentColor, 0 0 0.6px currentColor;
+}
+
+/* Estilo para checks en planes: verde y más "grueso" (icono relleno y tamaño) */
+.plan-check {
+  color: #198754 !important;
+  /* verde */
+  font-size: 1.25rem;
+  /* tamaño más grande */
+  vertical-align: -0.15rem;
+}
+
+/* si algún estilo global fuerza otro color */
+.plan-list .plan-check {
+  color: #198754 !important;
+}
+
+
+/* --- efectos para cards (levantar al pasar el cursor) --- */
+.feature-card {
+  transition: transform .18s ease, box-shadow .18s ease;
+  will-change: transform;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 18px 40px rgba(13, 110, 253, 0.12);
+  cursor: pointer;
+}
+
+/* variante más sutil para dispositivos táctiles (evitar sobresalto) */
+@media (hover: none) {
+  .feature-card:hover {
+    transform: none;
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+/* --- checks en planes: más gruesos y verdes --- */
+.plan-check {
+  color: #198754 !important;
+  /* verde Bootstrap */
+  font-size: 1.25rem;
+  /* más grande */
+  vertical-align: -0.12rem;
+  text-shadow: 0 0 0.6px currentColor;
+}
+
+/* si algún estilo global fuerza otro color */
+.plan-list .plan-check {
+  color: #198754 !important;
+}
+
+/* --- Asegurar iconos más "gruesos" y colores en la tabla comparativa --- */
+.comparison-table .text-danger {
+  color: #dc3545 !important;
+}
+
+.comparison-table .text-success {
+  color: #198754 !important;
+}
+
+.comparison-table .bi {
+  font-size: 1.6rem;
+  vertical-align: -0.12rem;
+  text-shadow: 0 0 0.6px currentColor;
+}
+
+.section-gray {
+  background-color: #f5f5f5;
+}
+
+.section-white {
+  background-color: #ffffff;
+}
+
+.about-card {
+  border: 1px solid rgba(25, 135, 84, 0.65) !important;
+  border-radius: 1rem;
+}
+
+/* Mantener interacción si ya la tienes (opcional) */
+.about-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(25, 135, 84, 0.12);
+}
+
+h2{
+  color: black !important;
+}

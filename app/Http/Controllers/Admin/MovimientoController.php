@@ -9,6 +9,9 @@ use App\Models\Vehiculo;
 use App\Models\Parqueadero;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use App\Models\Tarifa;
+use App\Models\Transaccion;
+
 
 class MovimientoController extends Controller
 {
@@ -17,18 +20,25 @@ class MovimientoController extends Controller
      */
     public function index()
     {
-        $entradas = Movimiento::where('tipo', 'entrada')
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
+
+        $entradas = Movimiento::where('user_id', Auth::id())
+            ->where('parqueadero_id', $parqueadero->id)
+            ->where('tipo', 'entrada')
             ->orderBy('fecha_hora', 'desc')
             ->take(10)
             ->get();
 
-        $salidas = Movimiento::where('tipo', 'salida')
+        $salidas = Movimiento::where('user_id', Auth::id())
+            ->where('parqueadero_id', $parqueadero->id)
+            ->where('tipo', 'salida')
             ->orderBy('fecha_hora', 'desc')
             ->take(10)
             ->get();
 
         return view('admin.movimientos', compact('entradas', 'salidas'));
     }
+
 
     /**
      * ✅ REGISTRAR UNA ENTRADA
@@ -52,13 +62,14 @@ class MovimientoController extends Controller
         );
 
         // ✅ Asociación al parqueadero (temporal: el primero)
-        $parqueadero = Parqueadero::first();
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
         if (!$parqueadero) {
             return back()->with('error', 'No existe un parqueadero registrado.');
         }
 
         // ✅ Verificar último movimiento
         $ultimoMovimiento = Movimiento::where('vehiculo_id', $vehiculo->id)
+            ->where('parqueadero_id', $parqueadero->id)   // ← este es el cambio
             ->orderBy('fecha_hora', 'desc')
             ->first();
 
@@ -71,9 +82,11 @@ class MovimientoController extends Controller
         Movimiento::create([
             'vehiculo_id'    => $vehiculo->id,
             'parqueadero_id' => $parqueadero->id,
+            'user_id'        => auth()->id(),
             'tipo'           => 'entrada',
             'fecha_hora'     => Carbon::now(),
         ]);
+
 
         return back()->with('success', "Entrada registrada correctamente para la placa {$placa}.");
     }
@@ -85,39 +98,71 @@ class MovimientoController extends Controller
     {
         $request->validate([
             'placa' => 'required|string|max:10',
+            'metodo_pago' => 'required|string',
         ]);
 
         $placa = strtoupper(trim($request->placa));
 
         $vehiculo = Vehiculo::where('placa', $placa)->first();
-
         if (!$vehiculo) {
             return back()->with('error', "El vehículo {$placa} no existe en el sistema.");
         }
 
-        $parqueadero = Parqueadero::first();
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
         if (!$parqueadero) {
             return back()->with('error', 'No existe un parqueadero registrado.');
         }
 
-        // ✅ Obtener último registro
-        $ultimoMovimiento = Movimiento::where('vehiculo_id', $vehiculo->id)
+        // ✅ Obtener última ENTRADA en ESTE parqueadero
+        $entrada = Movimiento::where('vehiculo_id', $vehiculo->id)
+            ->where('parqueadero_id', $parqueadero->id)
+            ->where('tipo', 'entrada')
             ->orderBy('fecha_hora', 'desc')
             ->first();
 
-        // ❌ Si NO existe entrada o el último movimiento fue SALIDA → no puede salir
-        if (!$ultimoMovimiento || $ultimoMovimiento->tipo !== 'entrada') {
+        if (!$entrada) {
             return back()->with('error', "El vehículo {$placa} no tiene una entrada registrada.");
         }
 
-        // ✅ Registrar SALIDA
-        Movimiento::create([
+        // ✅ Tiempo total
+        $minutos = $entrada->fecha_hora->diffInMinutes(now());
+
+        // ✅ Obtener tarifa
+        $tarifa = Tarifa::where('parqueadero_id', $parqueadero->id)
+            ->where('tipo_vehiculo', $vehiculo->tipo_vehiculo)
+            ->first();
+
+        if (!$tarifa) {
+            return back()->with('error', "No hay tarifa configurada para {$vehiculo->tipo_vehiculo}.");
+        }
+
+        // ✅ Calcular costo
+        $costo = $minutos * $tarifa->valor_minuto;
+
+        // ✅ Registrar salida con monto
+        $salida = Movimiento::create([
             'vehiculo_id'    => $vehiculo->id,
             'parqueadero_id' => $parqueadero->id,
+            'user_id'        => auth()->id(),
             'tipo'           => 'salida',
-            'fecha_hora'     => Carbon::now(),
+            'fecha_hora'     => now(),
+            'monto'          => $costo,
+            'metodo_pago'    => $request->metodo_pago,
         ]);
 
-        return back()->with('success', "Salida registrada correctamente para la placa {$placa}.");
+        // ✅ Registrar transacción con tu estructura real
+        Transaccion::create([
+            'usuario_id'     => auth()->id(),
+            'parqueadero_id' => $parqueadero->id,
+            'vehiculo_id'    => $vehiculo->id,
+            'reserva_id'     => null,
+            'mensualidad_id' => null,
+            'tipo_transaccion' => 'salida',
+            'valor'            => $costo,
+            'metodo_pago'      => $request->metodo_pago,
+            'fecha'            => now(),
+        ]);
+
+        return back()->with('success', "Salida registrada. Total a pagar: $" . number_format($costo, 0));
     }
 }

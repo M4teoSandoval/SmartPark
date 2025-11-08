@@ -6,18 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Models\Tarifa;
 use App\Models\Parqueadero;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class TarifaController extends Controller
 {
     public function index()
     {
         // Obtener el parqueadero del admin (por ahora el primero)
-        $parqueadero = Parqueadero::first();
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
+
+        if (!$parqueadero) {
+            return redirect()->route('admin.ajustes')
+                ->with('error', 'Primero debes registrar tu parqueadero.');
+        }
 
         // Obtener tarifas relacionadas
         $tarifas = Tarifa::where('parqueadero_id', $parqueadero->id)->get();
 
-        return view('admin.tarifas', compact('tarifas'));
+        return view('admin.tarifas', compact('tarifas', 'parqueadero'));
     }
 
     public function store(Request $request)
@@ -29,7 +36,7 @@ class TarifaController extends Controller
             'valor_mensualidad' => 'required|numeric|min:0',
         ]);
 
-        $parqueadero = Parqueadero::first();
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
 
         Tarifa::create([
             'tipo_vehiculo' => $request->tipo_vehiculo,
@@ -44,8 +51,14 @@ class TarifaController extends Controller
 
     public function destroy($id)
     {
-        Tarifa::destroy($id);
+        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->first();
 
-        return back()->with('success', 'Tarifa eliminada.');
+        $tarifa = Tarifa::where('id', $id)
+            ->where('parqueadero_id', $parqueadero->id)
+            ->firstOrFail();
+
+        $tarifa->delete();
+
+        return back()->with('success', 'Tarifa eliminada correctamente.');
     }
 }

@@ -17,5 +17,6 @@ class Tarifa extends Model
     public function parqueadero()
     {
         return $this->belongsTo(Parqueadero::class);
+    
     }
 }

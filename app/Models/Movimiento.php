@@ -9,9 +9,15 @@ class Movimiento extends Model
     protected $fillable = [
         'vehiculo_id',
         'parqueadero_id',
+        'user_id',
         'tipo',
         'fecha_hora'
     ];
+
+    protected $casts = [
+        'fecha_hora' => 'datetime',
+    ];
+
 
     public function vehiculo()
     {

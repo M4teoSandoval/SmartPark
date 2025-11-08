@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaccion extends Model
-{
+{   
+    protected $table = 'transacciones';
+
     protected $fillable = [
         'usuario_id',
         'parqueadero_id',
