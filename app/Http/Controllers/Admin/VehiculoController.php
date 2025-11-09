@@ -15,17 +15,11 @@ class VehiculoController extends Controller
     // ✅ Listar vehículos
     public function index()
     {
+
+
         $parqueadero = Parqueadero::where('propietario_id', auth()->id())->first();
 
-        $vehiculos = Vehiculo::whereHas('movimientos', function ($q) use ($parqueadero) {
-            $q->where('parqueadero_id', $parqueadero->id);
-        })
-            ->with(['movimientos' => function ($q) use ($parqueadero) {
-                $q->where('parqueadero_id', $parqueadero->id)
-                    ->orderBy('fecha_hora', 'desc')
-                    ->limit(1);
-            }])
-            ->get();
+        $vehiculos = Vehiculo::where('user_id', auth()->id())->get();
 
         return view('admin.vehiculos.index', compact('vehiculos'));
     }
@@ -88,6 +82,4 @@ class VehiculoController extends Controller
 
         return redirect()->route('admin.vehiculos')->with('success', 'Vehículo actualizado.');
     }
-
-    
 }

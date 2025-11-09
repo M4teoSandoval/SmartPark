@@ -21,6 +21,8 @@ return new class extends Migration
             $table->date('fecha_fin');
             $table->string('estado');
             $table->decimal('valor', 10, 2);
+            $table->string('metodo_pago')->nullable();  // ✅ NUEVO
+
             $table->timestamps();
         });
     }

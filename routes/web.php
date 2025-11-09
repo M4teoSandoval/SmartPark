@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MensualidadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\MovimientoController;
@@ -30,10 +31,8 @@ Route::middleware(['auth'])->group(function () {
     // ✅ PARQUEADERO
     Route::get('/admin/parqueadero', [ParqueaderoController::class, 'index'])
         ->name('admin.parqueadero');
-
     Route::post('/admin/parqueadero', [ParqueaderoController::class, 'store'])
         ->name('admin.parqueadero.store');
-
     Route::put('/admin/parqueadero/{id}', [ParqueaderoController::class, 'update'])
         ->name('admin.parqueadero.update');
 
@@ -45,15 +44,12 @@ Route::middleware(['auth'])->group(function () {
     // ✅ MOVIMIENTOS
     Route::get('/admin/movimientos', [MovimientoController::class, 'index'])
         ->name('admin.movimientos');
-
     Route::post('/admin/movimientos/entrada', [MovimientoController::class, 'registrarEntrada'])
         ->name('admin.movimientos.entrada');
-
     Route::post('/admin/movimientos/salida', [MovimientoController::class, 'registrarSalida'])
         ->name('admin.movimientos.salida');
 
     // ✅ Otras secciones
-    Route::get('/admin/abonados', [AdminController::class, 'abonados'])->name('admin.abonados');
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
     Route::get('/admin/ajustes', [ParqueaderoController::class, 'index'])
@@ -63,32 +59,35 @@ Route::middleware(['auth'])->group(function () {
     // ✅ VEHÍCULOS
     Route::get('/admin/vehiculos', [VehiculoController::class, 'index'])
         ->name('admin.vehiculos');
-
     Route::get('/admin/vehiculos/create', [VehiculoController::class, 'create'])
         ->name('admin.vehiculos.create');
-
     Route::post('/admin/vehiculos', [VehiculoController::class, 'store'])
         ->name('admin.vehiculos.store');
-
     Route::get('/admin/vehiculos/{id}', [VehiculoController::class, 'show'])
         ->name('admin.vehiculos.show');
-
     Route::get('/admin/vehiculos/{id}/edit', [VehiculoController::class, 'edit'])
         ->name('admin.vehiculos.edit');
-
     Route::put('/admin/vehiculos/{id}', [VehiculoController::class, 'update'])
         ->name('admin.vehiculos.update');
 
-    
+
     //Transacciones
     Route::get('/admin/transacciones', [TransaccionController::class, 'index'])
         ->name('admin.transacciones');
 
 
-    
 
-
-
-    
-
+    // ✅ MENSUALIDADES
+    Route::get('/admin/mensualidades', [MensualidadController::class, 'index'])
+        ->name('admin.mensualidades');
+    Route::get('/admin/mensualidades/create', [MensualidadController::class, 'create'])
+        ->name('admin.mensualidades.create');
+    Route::post('/admin/mensualidades', [MensualidadController::class, 'store'])
+        ->name('admin.mensualidades.store');
+    Route::get('/admin/mensualidades/{id}', [MensualidadController::class, 'show'])
+        ->name('admin.mensualidades.show');
+    Route::get('/admin/mensualidades/{id}/edit', [MensualidadController::class, 'edit'])
+        ->name('admin.mensualidades.edit');
+    Route::put('/admin/mensualidades/{id}', [MensualidadController::class, 'update'])
+        ->name('admin.mensualidades.update');
 });
