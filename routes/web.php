@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MovimientoController;
 use App\Http\Controllers\Admin\ParqueaderoController;
 use App\Http\Controllers\Admin\TarifaController;
 use App\Http\Controllers\Admin\TransaccionController;
+use App\Http\Controllers\Admin\UsersAdminController;
 use App\Http\Controllers\Admin\VehiculoController;
 use App\Http\Controllers\HomeController;
 
@@ -90,4 +91,11 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.mensualidades.edit');
     Route::put('/admin/mensualidades/{id}', [MensualidadController::class, 'update'])
         ->name('admin.mensualidades.update');
+
+
+
+    // ✅ USUARIOS
+    Route::get('/admin/usuarios', [UsersAdminController::class, 'index'])->name('admin.usuarios');
+    Route::get('/admin/usuarios/create', [UsersAdminController::class, 'create'])->name('admin.usuarios.create');
+    Route::post('/admin/usuarios', [UsersAdminController::class, 'store'])->name('admin.usuarios.store');
 });
