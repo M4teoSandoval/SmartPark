@@ -85,7 +85,7 @@ class MensualidadController extends Controller
             'usuario_id'     => $request->usuario_id,
             'vehiculo_id'    => $vehiculo->id,
             'parqueadero_id' => $parqueadero->id,
-            'tipo'           => 'mensualidad',
+            'tipo_transaccion'           => 'mensualidad',
             'valor'          => $valor,
             'fecha'          => now(),
             'metodo_pago'    => $request->metodo_pago,

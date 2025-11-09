@@ -123,23 +123,32 @@
 
                         <div class="mb-3">
                             <label class="fw-semibold">Placa del vehículo</label>
-                            <input type="text" name="placa" class="form-control @error('placa') is-invalid @enderror"
-                                placeholder="Ej: ABC123" required>
+                            <input type="text" name="placa" id="placaSalida"
+                                class="form-control @error('placa') is-invalid @enderror" placeholder="Ej: ABC123" required
+                                onkeyup="verificarMensualidad()">
+
                             @error('placa')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        {{-- ✅ MENSAJE SI TIENE MENSUALIDAD --}}
+                        <div id="mensualidadActiva" class="alert alert-info fw-bold d-none">
+                            Este vehículo tiene mensualidad activa. No se realizará cobro.
+                        </div>
+
+                        {{-- ✅ MÉTODO DE PAGO (se oculta si tiene mensualidad) --}}
+                        <div class="mb-3" id="metodoPagoBox">
                             <label class="fw-semibold">Método de pago</label>
-                            <select name="metodo_pago" class="form-control @error('metodo_pago') is-invalid @enderror"
-                                required>
+                            <select name="metodo_pago" id="metodo_pago"
+                                class="form-control @error('metodo_pago') is-invalid @enderror">
                                 <option disabled selected>Seleccionar...</option>
                                 <option value="efectivo">Efectivo</option>
                                 <option value="tarjeta">Tarjeta</option>
                                 <option value="nequi">Nequi</option>
                                 <option value="daviplata">Daviplata</option>
                             </select>
+
                             @error('metodo_pago')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
@@ -150,6 +159,35 @@
 
                 </div>
             </div>
+
+            {{-- SCRIPT AJAX PARA DETECTAR MENSUALIDAD --}}
+            <script>
+                function verificarMensualidad() {
+                    let placa = document.getElementById('placaSalida').value.trim();
+
+                    if (placa.length < 3) return;
+
+                    fetch('/api/verificar-mensualidad/' + placa)
+                        .then(response => response.json())
+                        .then(data => {
+
+                            const msg = document.getElementById('mensualidadActiva');
+                            const metodo = document.getElementById('metodoPagoBox');
+                            const metodoSelect = document.getElementById('metodo_pago');
+
+                            if (data.activa === true) {
+                                msg.classList.remove('d-none');
+                                metodo.classList.add('d-none');
+                                metodoSelect.removeAttribute('required');
+                            } else {
+                                msg.classList.add('d-none');
+                                metodo.classList.remove('d-none');
+                                metodoSelect.setAttribute('required', 'required');
+                            }
+                        });
+                }
+            </script>
+
 
 
             {{-- LISTA DE SALIDAS --}}

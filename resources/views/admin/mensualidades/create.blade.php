@@ -8,11 +8,22 @@
 @section('content')
     <div class="dashboard-container">
 
+
+
         @include('admin.sidebar')
 
         <section class="main-content">
 
             <h1 class="mb-4">Registrar Mensualidad</h1>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
@@ -61,7 +72,6 @@
                         <option value="efectivo">Efectivo</option>
                         <option value="tarjeta">Tarjeta</option>
                         <option value="transferencia">Transferencia</option>
-                        <option value="payu">PayU</option>
                     </select>
                 </div>
 

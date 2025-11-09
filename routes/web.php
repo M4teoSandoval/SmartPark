@@ -50,6 +50,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/movimientos/salida', [MovimientoController::class, 'registrarSalida'])
         ->name('admin.movimientos.salida');
 
+    Route::get('/api/verificar-mensualidad/{placa}', function ($placa) {
+        $vehiculo = \App\Models\Vehiculo::where('placa', strtoupper($placa))->first();
+
+        if (!$vehiculo) {
+            return ['activa' => false];
+        }
+
+        $mensualidad = $vehiculo->mensualidades()
+            ->where('estado', 'activa')
+            ->whereDate('fecha_inicio', '<=', now())
+            ->whereDate('fecha_fin', '>=', now())
+            ->first();
+
+        return ['activa' => $mensualidad ? true : false];
+    });
+
+
     // ✅ Otras secciones
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
