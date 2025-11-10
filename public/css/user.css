@@ -6,13 +6,15 @@ body {
     background-color: #f4f7fa;
 }
 
-/* Dashboard sí necesita FLEX */
+/* Dashboard contenedor principal */
 .dashboard-container {
     display: flex;
     min-height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
-/* Reservas NO debe ser flex (volvemos al comportamiento natural) */
+/* Reservas NO debe ser flex */
 .reservas-container {
     display: block;
     min-height: 100vh;
@@ -24,7 +26,7 @@ body {
 ============================================================ */
 .sidebar {
     width: 240px;
-    flex-shrink: 0; /* Sidebar mantiene su ancho */
+    flex-shrink: 0;
     background-color: #1D457D;
     color: white;
     padding: 30px 18px;
@@ -34,6 +36,7 @@ body {
     bottom: 0;
     overflow-y: auto;
     border-top-right-radius: 8px;
+    z-index: 10;
 }
 
 .sidebar-title {
@@ -84,17 +87,14 @@ body {
 /* ============================================================
    MAIN CONTENT
 ============================================================ */
-
-/*
-   ✅ NO calc()
-   ✅ Ocupa todo el espacio restante automáticamente
-*/
 .main-content {
     flex: 1;
-    margin-left: 240px;   /* espacio para el sidebar */
+    margin-left: 240px;
     margin-top: 70px;
     padding: 26px;
-    min-width: 0;         /* evita overflow */
+    min-width: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .welcome-title, 
@@ -105,28 +105,61 @@ body {
 }
 
 /* ============================================================
-   TARJETAS (STATS)
+   TARJETAS (STATS / RESUMEN / SUSCRIPCIÓN)
 ============================================================ */
-.stat-cards {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
+.col-lg-4, .col-lg-8 {
+    position: relative;
+    overflow: hidden; /* evita que animaciones se salgan */
 }
 
-.stat {
-    flex: 1;
-    min-width: 180px;
+.summary-card, .subscription-card {
+    background: #ffffff;
     border-radius: 12px;
     padding: 20px;
-    color: white;
-    font-weight: 700;
-    box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: all 0.5s ease;
 }
 
-.stat.blue { background-color: #3b82f6; }
-.stat.yellow { background-color: #f7c844; color: #333; }
-.stat.cyan { background-color: #0ea5e9; }
+.summary-card:hover, .subscription-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.summary-card i, .subscription-card i {
+    color: #1D457D;
+}
+
+/* Estadísticas dentro de resumen */
+.summary-card .p-3.bg-light {
+    background-color: #f8f9fa !important;
+    transition: all 0.3s ease;
+}
+
+.summary-card .p-3.bg-light:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* ============================================================
+   NEWS / AVISOS
+============================================================ */
+.news-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.news-card img {
+    border-radius: 10px;
+    object-fit: cover;
+}
 
 /* ============================================================
    TARJETAS GENERALES
@@ -160,15 +193,66 @@ body {
 }
 
 .parking-card {
+    width: 280px;
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1.8px solid #93C5FD;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.parking-card:hover {
+    transform: translateY(-4px);
+    border-color: #3B82F6;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
 }
 
 .parking-card img {
     width: 100%;
-    height: 160px;
+    height: 180px;
     object-fit: cover;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.parking-card .card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.parking-card h5 {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #1E3A8A;
+}
+
+.parking-card p.text-muted {
+    font-size: 0.9rem;
+    color: #6B7280 !important;
+}
+
+.parking-card .btn-primary {
+    background-color: #3B82F6;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.parking-card .btn-primary:hover {
+    background-color: #2563EB;
+}
+
+.parking-card i.text-warning {
+    font-size: 0.95rem;
+    margin-right: 3px;
 }
 
 /* ============================================================
@@ -229,7 +313,6 @@ body {
    RESPONSIVE
 ============================================================ */
 @media (max-width: 992px) {
-
     .dashboard-container {
         flex-direction: column;
     }
@@ -248,86 +331,19 @@ body {
     }
 }
 
-.card {
-  border: 1px solid #3D8BFD!important; /* azul oscuro del sidebar */
-  border-radius: 10px;
+/* ============================================================
+   ANIMACIONES
+============================================================ */
+.animate__animated {
+    will-change: transform, opacity;
 }
 
-
-/* Tarjeta de parqueadero mejorada */
-.parking-card {
-  width: 280px; /* tamaño fijo de tarjeta */
-  border: 1.8px solid #93C5FD;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #ffffff;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
+.animate__fadeInLeft {
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
 }
 
-.parking-card:hover {
-  transform: translateY(-4px);
-  border-color: #3B82F6; /* azul más vivo */
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
+.animate__fadeInRight {
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
 }
-
-/* Imagen */
-.parking-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-bottom: 1px solid #E5E7EB;
-}
-
-/* Contenido */
-.parking-card .card-body {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
-}
-
-/* Título */
-.parking-card h5 {
-  margin-bottom: 0.3rem;
-  font-weight: 600;
-  color: #1E3A8A;
-}
-
-/* Texto secundario */
-.parking-card p.text-muted {
-  font-size: 0.9rem;
-  color: #6B7280 !important;
-}
-
-/* Botón Reservar */
-.parking-card .btn-primary {
-  background-color: #3B82F6;
-  border: none;
-  padding: 0.3rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  transition: background 0.3s;
-}
-
-.parking-card .btn-primary:hover {
-  background-color: #2563EB;
-}
-
-/* Rating */
-.parking-card i.text-warning {
-  font-size: 0.95rem;
-  margin-right: 3px;
-}
-
-.parking-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-

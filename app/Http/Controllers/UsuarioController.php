@@ -6,14 +6,68 @@ use App\Models\Parqueadero;
 use Illuminate\Http\Request;
 use App\Models\Reserva;
 use App\Models\Vehiculo;
+use Carbon\Carbon;
 
 class UsuarioController extends Controller
 {
-    public function inicio()
-    {
-        return view('usuario.inicio');
-    }
+        public function inicio()
+        {
+            $user = auth()->user();
 
+            $mensualidad = auth()->user()->mensualidades()->latest('fecha_fin')->first();
+
+
+            if ($mensualidad) {
+                $hoy = \Carbon\Carbon::now()->startOfDay();
+                $fechaFin = \Carbon\Carbon::parse($mensualidad->fecha_fin)->startOfDay();
+
+                // Días restantes como entero
+                $mensualidad->dias_restantes = max(0, $hoy->diffInDays($fechaFin));
+            }
+
+
+
+
+
+
+            $usageDays = Reserva::where('usuario_id', auth()->id())
+                ->whereMonth('fecha_reserva', now()->month)
+                ->distinct('fecha_reserva')
+                ->count('fecha_reserva');
+
+            $totalReservations = $user->reservas()->count();
+
+            $movimientos = \App\Models\Movimiento::where('user_id', auth()->id())
+                ->whereMonth('fecha_hora', now()->month)
+                ->orderBy('fecha_hora')
+                ->get();
+
+            $totalMinutos = 0;
+            $entradas = [];
+
+            foreach ($movimientos as $mov) {
+                if ($mov->tipo === 'entrada') {
+                    $entradas[$mov->vehiculo_id][] = $mov->fecha_hora;
+                } elseif ($mov->tipo === 'salida' && isset($entradas[$mov->vehiculo_id]) && count($entradas[$mov->vehiculo_id]) > 0) {
+                    $entrada = array_shift($entradas[$mov->vehiculo_id]);
+                    $totalMinutos += Carbon::parse($entrada)->diffInMinutes($mov->fecha_hora);
+                }
+            }
+
+            $totalHoras = round($totalMinutos / 60, 2);
+
+            $averagePerDay = $usageDays ? round($totalHoras / $usageDays, 2) : 0;
+
+
+
+            return view('usuario.inicio', [
+                'mensualidad' => $mensualidad,
+                'usageDays' => $usageDays,
+                'totalHoras' => $totalHoras,
+                'totalReservations' => $totalReservations,
+                'averagePerDay' => $averagePerDay,
+            ]);
+        }
 
     public function parqueaderos()
     {

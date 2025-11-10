@@ -19,7 +19,7 @@ class AdminReservaController extends Controller
 
         // ✅ Reservas activas para este parqueadero
         $reservas = Reserva::where('parqueadero_id', $parqueadero->id)
-            ->where('estado', 'activa')
+            ->where('estado', 'pendiente')
             ->orderBy('fecha_reserva', 'asc')
             ->get();
 
@@ -29,7 +29,7 @@ class AdminReservaController extends Controller
     public function aceptar($id)
     {
         $reserva = Reserva::findOrFail($id);
-        $reserva->estado = 'aceptada';
+        $reserva->estado = 'activa';
         $reserva->save();
 
         return back()->with('success', 'Reserva aceptada correctamente.');

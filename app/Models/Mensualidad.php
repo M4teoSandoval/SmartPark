@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Mensualidad extends Model
@@ -17,6 +17,16 @@ class Mensualidad extends Model
         'estado',
         'valor'
     ];
+    public function getDiasRestantesAttribute()
+    {
+        if (!$this->fecha_fin) return null;
+
+        $fin = Carbon::parse($this->fecha_fin);
+        $hoy = Carbon::now();
+        $diff = $hoy->diffInDays($fin, false);
+
+        return $diff > 0 ? $diff : 0;
+    }
 
     public function usuario()
     {
