@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-center mt-4">
-                    <img src="{{ asset('images/home1.png') }}" alt="SmartPark" class="img-fluid slide-in-right w-75">
+                    <img src="{{ asset('images/home1.png') }}" alt="SmartPark" class="img-fluid slide-in-right rounded-circle w-75">
                 </div>
             </div>
         </div>
@@ -243,7 +243,7 @@
 
                 <!-- Fila 6 -->
                 <div class="row align-items-center py-2">
-                    <div class="col-4 fw-semibold">Notificaciones en tiempo real</div>
+                    <div class="col-4 fw-semibold">Soporte SmartPark</div>
                     <div class="col-4 text-danger fs-5"><i class="bi bi-x-circle-fill"></i></div>
                     <div class="col-4 text-success fs-5"><i class="bi bi-check-circle-fill"></i></div>
                 </div>
@@ -277,7 +277,7 @@
                 <!-- Card Conductores -->
                 <div class="col-md-5 mb-4">
                     <div class="card feature-card plan-card border-primary shadow-sm h-100 position-relative">
-                        <div class="card-body">
+                        <div class="card-body text-start">
                             <h4 class="fw-bold text-primary mb-2">Para Conductores</h4>
                             <p class="text-muted mb-3">Encuentra y reserva estacionamientos fácilmente</p>
                             <h3 class="fw-bold mb-0 text-dark">Gratis</h3>
@@ -307,10 +307,10 @@
                             Más Popular
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body text-start">
                             <h4 class="fw-bold text-primary mb-2">Para Administradores</h4>
                             <p class="text-muted mb-3">Gestiona y monetiza tus espacios</p>
-                            <h3 class="fw-bold mb-0 text-dark">$9.99</h3>
+                            <h3 class="fw-bold mb-0 text-dark">500.000 COP</h3>
                             <p class="text-muted">Por mes</p>
                             <ul class="list-unstyled text-start mt-3 plan-list">
                                 <li><i class="bi bi-check-circle-fill plan-check me-2"></i>Panel de control completo
@@ -321,7 +321,6 @@
                                     tiempo real
                                 </li>
                                 <li><i class="bi bi-check-circle-fill plan-check me-2"></i>Soporte prioritario</li>
-                                <li><i class="bi bi-check-circle-fill plan-check me-2"></i>Comisión reducida (5%)</li>
                             </ul>
                         </div>
                     </div>
