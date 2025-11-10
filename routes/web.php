@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\VehiculoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MensualidadUsuarioController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\TransaccionUsuarioController;
 
 // Página principal
 Route::get('/', function () {
@@ -139,7 +140,7 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 
 
     Route::get('/parqueaderos', [UsuarioController::class, 'parqueaderos'])->name('parqueaderos');
-    Route::get('/transacciones', [UsuarioController::class, 'transacciones'])->name('transacciones');
+    Route::get('/transacciones', [TransaccionUsuarioController::class, 'index'])->name('transacciones');
     Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
 
 

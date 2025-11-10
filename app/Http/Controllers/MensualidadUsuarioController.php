@@ -82,7 +82,7 @@ class MensualidadUsuarioController extends Controller
             'mensualidad_id' => $mensualidad->id,
             'tipo_transaccion' => 'mensualidad',
             'valor' => $valor,
-            'metodo_pago' => 'mensualidad',
+            'metodo_pago' => 'PayU',
             'fecha' => now()
         ]);
 
