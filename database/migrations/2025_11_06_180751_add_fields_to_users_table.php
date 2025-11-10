@@ -9,12 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user'); // agrega el campo role con valor por defecto 'user'
+            $table->string('tipo_documento')->nullable();
+            $table->string('numero_documento')->nullable();
+            $table->foreignId('role_id')->nullable()->default(2)->constrained('roles')->onDelete('cascade');
         });
     }
+
 
     /**
      * Reverse the migrations.
@@ -22,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role'); // elimina el campo si se revierte la migración
+            //
         });
     }
 };

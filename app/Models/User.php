@@ -2,31 +2,28 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * Campos que se pueden llenar masivamente
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'tipo_documento',
+        'numero_documento',
+        'role_id',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
+     * Campos ocultos
      */
     protected $hidden = [
         'password',
@@ -34,9 +31,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Casts de datos
      */
     protected function casts(): array
     {
@@ -44,5 +39,57 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // ============================
+    //        RELACIONES
+    // ============================
+
+    /**
+     * Un usuario pertenece a un rol
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Un usuario tiene muchos vehículos
+     */
+    public function vehiculos()
+    {
+        return $this->hasMany(Vehiculo::class);
+    }
+
+    /**
+     * Un usuario tiene muchas reservas
+     */
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class, 'usuario_id');
+    }
+
+    /**
+     * Un usuario tiene muchas mensualidades
+     */
+    public function mensualidades()
+    {
+        return $this->hasMany(Mensualidad::class, 'usuario_id');
+    }
+
+    /**
+     * Un usuario tiene muchas transacciones
+     */
+    public function transacciones()
+    {
+        return $this->hasMany(Transaccion::class, 'usuario_id');
+    }
+
+    /**
+     * Un usuario puede ser propietario de parqueaderos
+     */
+    public function parqueaderosPropios()
+    {
+        return $this->hasMany(Parqueadero::class, 'propietario_id');
     }
 }

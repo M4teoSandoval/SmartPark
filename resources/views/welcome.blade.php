@@ -15,7 +15,7 @@
     <!-- 🌐 Navbar -->
     <nav class="navbar navbar-expand-lg bg-white shadow-sm py-2 fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
-            <!-- Logo + nombre -->
+            <!-- Logo y nombre -->
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="SmartPark" width="50" class="me-2">
                 <span class="fw-bold" style="color: #1D457D;">Smart<span style="color: #2CA6D0;">Park</span></span>
@@ -34,9 +34,19 @@
 
             <!-- Botones a la derecha -->
             <div class="d-flex">
-                <a href="{{ route('login') }}" class="btn btn-success me-2">Ingresar</a>
-                <a href="{{ route('register') }}" class="btn btn-primary">Registrarse</a>
+                @guest
+                    <a href="{{ route('login') }}" class="btn btn-success me-2">Ingresar</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Registrarse</a>
+                @else
+                    <a href="{{ route('usuario.inicio') }}" class="btn btn-info me-2">Mi Panel</a>
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                    </form>
+                @endguest
             </div>
+
+
         </div>
     </nav>
 

@@ -4,33 +4,29 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth; // <-- Asegúrate de importar Auth
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
+     * Redirige a los usuarios según su rol después del login
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user(); // mejor que auth()->user() para Intelephense
+
+        if ($user->role->id === 1) {
+            return '/admin';
+        }
+
+        return '/usuario';
+    }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Crear una nueva instancia del controlador.
      */
     public function __construct()
     {

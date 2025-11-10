@@ -1,0 +1,137 @@
+/* =============================
+   ESTILO GENERAL USER RESERVAS
+============================= */
+.reservas-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =============================
+   CARDS PRINCIPALES
+============================= */
+.res-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.res-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+}
+
+/* =============================
+   COLORES DE CARDS
+============================= */
+.card-primary {
+    background-color: #1D457D !important;
+    color: white !important;
+}
+
+.card-success {
+    background-color: #198754 !important;
+    color: white !important;
+}
+
+.card-warning {
+    background-color: #ffc107 !important;
+    color: #333 !important;
+}
+
+.card-info {
+    background-color: #0dcaf0 !important;
+    color: #003f57 !important;
+}
+
+/* =============================
+   LISTA RESERVAS ACTIVAS
+============================= */
+.reserva-item {
+    padding: 16px 12px;
+    border-bottom: 1px solid #dce4eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reserva-item:last-child {
+    border-bottom: none;
+}
+
+.reserva-title {
+    font-weight: 600;
+    color: #1D457D;
+    font-size: 17px;
+}
+
+.reserva-det {
+    color: #6c757d;
+    font-size: 13px;
+}
+
+/* =============================
+   BADGES
+============================= */
+.badge-activa {
+    background-color: #198754;
+    color: white;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+/* =============================
+   BOTONES
+============================= */
+.btn-res {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-ver {
+    border: 2px solid #1D457D;
+    color: #1D457D;
+}
+
+.btn-ver:hover {
+    background-color: #1D457D;
+    color: white;
+}
+
+.btn-cancelar {
+    border: 2px solid #dc3545;
+    color: #dc3545;
+}
+
+.btn-cancelar:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* =============================
+   ACCORDION HISTORIAL
+============================= */
+.accordion-button {
+    background: #f8f9fc;
+    font-weight: 600;
+    color: #1D457D;
+    padding: 15px;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e1ecf7;
+    color: #1D457D;
+}
+
+.accordion-body {
+    background: #ffffff;
+    color: #495057;
+    padding: 15px 18px;
+    border-left: 3px solid #1D457D;
+}
