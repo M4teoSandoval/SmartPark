@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-center mt-4">
-                    <img src="{{ asset('images/home1.png') }}" alt="SmartPark" class="img-fluid slide-in-right w-75">
+                    <img src="{{ asset('images/home1.png') }}" alt="SmartPark" class="rounded-circle img-fluid slide-in-right w-75">
                 </div>
             </div>
         </div>
@@ -166,7 +166,7 @@
                         <div class="icon-box bg-light-blue mb-3">
                             <i class="bi bi-headset text-primary"></i>
                         </div>
-                        <h5 class="fw-bold">4. Soporte humano y rápido</h5>
+                        <h5 class="fw-bold">4. Soporte SmartPark</h5>
                         <p class="text-muted">Nuestro equipo está disponible 24/7 para acompañarte en cualquier
                             momento.</p>
                     </div>
@@ -243,7 +243,7 @@
 
                 <!-- Fila 6 -->
                 <div class="row align-items-center py-2">
-                    <div class="col-4 fw-semibold">Notificaciones en tiempo real</div>
+                    <div class="col-4 fw-semibold">Soporte SmartPark</div>
                     <div class="col-4 text-danger fs-5"><i class="bi bi-x-circle-fill"></i></div>
                     <div class="col-4 text-success fs-5"><i class="bi bi-check-circle-fill"></i></div>
                 </div>

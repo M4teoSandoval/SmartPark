@@ -1,4 +1,3 @@
-// ...existing code...
 @extends('usuario.layout')
 
 @section('content')
@@ -127,4 +126,3 @@
     </div>
   </div>
 @endsection
-// ...existing code...
