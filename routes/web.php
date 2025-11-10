@@ -1,5 +1,7 @@
 <?php
+
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,4 +30,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
     Route::get('/admin/ajustes', [AdminController::class, 'ajustes'])->name('admin.ajustes');
+});
+
+
+
+Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function () {
+    Route::get('/', [UsuarioController::class, 'inicio'])->name('inicio');                  // /usuario -> usuario.inicio
+    Route::get('/reservas', [UsuarioController::class, 'reservas'])->name('reservas');      // /usuario/reservas -> usuario.reservas
+    Route::get('/parqueaderos', [UsuarioController::class, 'parqueaderos'])->name('parqueaderos'); // /usuario/parqueaderos
+    Route::get('/transacciones', [UsuarioController::class, 'transacciones'])->name('transacciones'); // /usuario/transacciones
+    Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');            // /usuario/perfil
 });
