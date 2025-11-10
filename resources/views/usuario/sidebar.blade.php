@@ -47,15 +47,16 @@
 
     <!-- Cerrar sesión -->
     <div class="mt-auto">
+          <!-- Botón Ser Administrador opcional -->
+        <a href="{{ url('/admin/become') }}" class="btn btn-danger w-100 text-white mt-3">
+            <i class="bi bi-crown me-2"></i> Ser Administrador
+        </a>
         <a href="#" class="text-white text-decoration-none d-flex align-items-center mb-3"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
         </a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
         
-        <!-- Botón Ser Administrador opcional -->
-        <a href="{{ url('/admin/become') }}" class="btn btn-danger w-100 text-white mt-3">
-            <i class="bi bi-crown me-2"></i> Ser Administrador
-        </a>
+      
     </div>
 </aside>

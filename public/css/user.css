@@ -1,35 +1,45 @@
+/* ============================================================
+   GENERAL
+============================================================ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7fa;
+}
+
+/* Dashboard sí necesita FLEX */
 .dashboard-container {
     display: flex;
     min-height: 100vh;
-    background-color: #f4f7fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* =============================
-   Sidebar
-============================= */
+/* Reservas NO debe ser flex (volvemos al comportamiento natural) */
+.reservas-container {
+    display: block;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ============================================================
+   SIDEBAR
+============================================================ */
 .sidebar {
     width: 240px;
+    flex-shrink: 0; /* Sidebar mantiene su ancho */
     background-color: #1D457D;
     color: white;
     padding: 30px 18px;
     position: fixed;
     top: 70px;
     left: 0;
-    bottom: auto;
-    height: 100%;
+    bottom: 0;
     overflow-y: auto;
-    transition: width 0.3s ease;
-    z-index: 1000;
     border-top-right-radius: 8px;
 }
 
 .sidebar-title {
-    font-size: 1.25rem;
-    margin-bottom: 24px;
-    color: #ffffff;
+    font-size: 1.35rem;
     font-weight: 700;
-    text-align: left;
+    margin-bottom: 25px;
     display: flex;
     gap: .5rem;
     align-items: center;
@@ -38,65 +48,65 @@
 .sidebar-menu {
     list-style: none;
     padding: 0;
-    margin: 18px 0 0;
+    margin: 0;
 }
 
 .sidebar-menu li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .sidebar-menu li a {
     color: white;
+    padding: 10px 12px;
     text-decoration: none;
     display: flex;
     align-items: center;
-    padding: 10px 12px;
     border-radius: 8px;
-    transition: all 0.2s ease;
     font-weight: 600;
+    transition: all .2s ease;
 }
 
 .sidebar-menu li a .icon {
-    margin-right: 12px;
-    font-size: 1.15em;
-    width: 26px;
+    margin-right: 10px;
+    width: 24px;
     text-align: center;
 }
 
 .sidebar-menu li a:hover {
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255,255,255,0.08);
 }
 
 .sidebar-menu li a.active {
     background: linear-gradient(90deg, #2CA6D0, #1D457D);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-/* =============================
-   Contenido principal
-============================= */
+/* ============================================================
+   MAIN CONTENT
+============================================================ */
+
+/*
+   ✅ NO calc()
+   ✅ Ocupa todo el espacio restante automáticamente
+*/
 .main-content {
     flex: 1;
-    margin-left: 260px;
-    padding: 26px;
-    transition: margin-left 0.3s ease;
+    margin-left: 240px;   /* espacio para el sidebar */
     margin-top: 70px;
+    padding: 26px;
+    min-width: 0;         /* evita overflow */
 }
 
-.main-topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 18px;
+.welcome-title, 
+.main-content h1, 
+.main-content h4 {
+    color: #0b2e4a;
+    font-weight: 700;
 }
 
-.main-topbar .actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
+/* ============================================================
+   TARJETAS (STATS)
+============================================================ */
 .stat-cards {
     display: flex;
     gap: 1rem;
@@ -107,156 +117,133 @@
 .stat {
     flex: 1;
     min-width: 180px;
-    border-radius: 10px;
-    padding: 18px;
-    color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
     font-weight: 700;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
 }
 
-.stat.blue {
-    background: #3b82f6;
+.stat.blue { background-color: #3b82f6; }
+.stat.yellow { background-color: #f7c844; color: #333; }
+.stat.cyan { background-color: #0ea5e9; }
+
+/* ============================================================
+   TARJETAS GENERALES
+============================================================ */
+.res-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transition: all .2s ease;
 }
 
-.stat.yellow {
-    background: #f59e0b;
-    color: #222;
+.res-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
 
-.stat.cyan {
-    background: #06b6d4;
-}
+.card-primary { background-color: #1D457D !important; color: white !important; }
+.card-success { background-color: #198754 !important; color: white !important; }
+.card-warning { background-color: #FFC107 !important; color: #222 !important; }
+.card-info    { background-color: #0dcaf0 !important; color: #003f57 !important; }
 
-/* Cards lista de parqueaderos */
+/* ============================================================
+   PARQUEADEROS GRID
+============================================================ */
 .parking-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
     gap: 16px;
 }
 
 .parking-card {
     background: white;
     border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
 }
 
 .parking-card img {
     width: 100%;
     height: 160px;
     object-fit: cover;
-    display: block;
 }
 
-.parking-card .card-body {
-    padding: 14px;
+/* ============================================================
+   RESERVAS ACTIVAS
+============================================================ */
+.reserva-item {
+    padding: 15px 12px;
+    border-bottom: 1px solid #e1e5eb;
+    display: flex;
+    justify-content: space-between;
 }
 
-.parking-card h5 {
-    margin: 0 0 8px;
+.reserva-title {
+    color: #1D457D;
+    font-size: 17px;
+    font-weight: 600;
 }
 
-.parking-card p {
-    margin: 0;
-    color: #6b7280;
+.reserva-det {
+    font-size: 13px;
+    color: #6c757d;
 }
 
-/* Responsive adjustments */
+.badge-activa {
+    background: #198754;
+    padding: 6px 10px;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn-res { padding: 6px 13px; border-radius: 6px; font-weight: 600; font-size: 13px; }
+.btn-ver { color: #1D457D; border: 2px solid #1D457D; }
+.btn-ver:hover { background-color: #1D457D; color: white; }
+.btn-cancelar { border: 2px solid #dc3545; color: #dc3545; }
+.btn-cancelar:hover { background-color: #dc3545; color: white; }
+
+/* ============================================================
+   HISTORIAL (ACCORDION)
+============================================================ */
+.accordion-button {
+    background: #f4f8ff;
+    color: #1D457D;
+    font-weight: 600;
+}
+
+.accordion-button:not(.collapsed) {
+    background: #e2ecf9;
+}
+
+.accordion-body {
+    background: #fff;
+    border-left: 3px solid #1D457D;
+    padding: 15px 18px;
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
 @media (max-width: 992px) {
+
+    .dashboard-container {
+        flex-direction: column;
+    }
+
     .sidebar {
-        position: relative;
         width: 100%;
+        position: relative;
         height: auto;
         top: 0;
-        display: flex;
-        gap: 14px;
-        padding: 14px;
+        border-radius: 0;
     }
 
     .main-content {
         margin-left: 0;
-        margin-top: 20px;
-        padding: 16px;
+        padding: 18px;
     }
-
-    .stat-cards {
-        flex-direction: column;
-    }
-}
-
-.welcome-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 0;
-    color: #0b2e4a;
-}
-
-.summary-card {
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
-}
-
-.subscription-card {
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
-}
-
-.news-card {
-    border-radius: 12px;
-    box-shadow: 0 8px 28px rgba(2, 6, 23, 0.06);
-    display: flex;
-    gap: 16px;
-    align-items: center;
-}
-
-.news-img {
-    width: 140px;
-    height: 100px;
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-.news-img-sm {
-    width: 80px;
-    height: 60px;
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-/* Asegurar separación con el sidebar */
-.main-content {
-    padding: 28px;
-}
-
-/* Responsive: apilar columnas en pantallas pequeñas */
-@media (max-width: 991px) {
-    .news-img {
-        width: 120px;
-        height: 80px;
-    }
-
-    .main-content {
-        padding: 16px;
-    }
-}
-
-/* user.css */
-.sidebar {
-    width: 250px;
-    background-color: #1D457D;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar .mt-auto {
-    margin-top: auto; /* Para empujar "Ser Administrador" al fondo */
-}
-
-.sidebar a {
-    color: white;
-    text-decoration: none;
-}
-
-.sidebar a:hover {
-    color: #ffc107; /* Por ejemplo un hover dorado */
 }

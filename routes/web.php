@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Admin\AdminReservaController;
 use App\Http\Controllers\UsuarioController;
 
 use App\Http\Controllers\Admin\DashboardController;
@@ -70,6 +70,16 @@ Route::middleware(['auth'])->group(function () {
         return ['activa' => $mensualidad ? true : false];
     });
 
+    // ✅ ADMIN – Gestión de reservas
+    Route::get('/admin/reservas', [AdminReservaController::class, 'index'])
+        ->name('admin.reservas.index');
+
+    Route::post('/admin/reservas/{id}/aceptar', [AdminReservaController::class, 'aceptar'])
+        ->name('admin.reservas.aceptar');
+
+    Route::post('/admin/reservas/{id}/rechazar', [AdminReservaController::class, 'rechazar'])
+        ->name('admin.reservas.rechazar');
+
 
     // ✅ Otras secciones
     Route::get('/admin/reportes', [AdminController::class, 'reportes'])->name('admin.reportes');
@@ -125,7 +135,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function () {
     Route::get('/', [UsuarioController::class, 'inicio'])->name('inicio');
-    
+
 
     Route::get('/parqueaderos', [UsuarioController::class, 'parqueaderos'])->name('parqueaderos');
     Route::get('/transacciones', [UsuarioController::class, 'transacciones'])->name('transacciones');
@@ -141,10 +151,18 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 
 
 
-     // Vehículos
+
+
+
+    Route::delete('/reservas/{id}', [ReservaController::class, 'destroy'])
+        ->name('reservas.destroy');
+
+
+
+
+    // Vehículos
     Route::get('/vehiculos', [UsuarioController::class, 'vehiculos'])->name('vehiculos.index');
     Route::get('/vehiculos/create', [UsuarioController::class, 'vehiculosCreate'])->name('vehiculos.create');
     Route::post('/vehiculos', [UsuarioController::class, 'vehiculosStore'])->name('vehiculos.store');
     Route::delete('/vehiculos/{id}', [UsuarioController::class, 'vehiculosDestroy'])->name('vehiculos.destroy');
 });
-

@@ -19,11 +19,14 @@ class ReservaController extends Controller
             ->whereDate('fecha_reserva', '>=', now())
             ->get();
 
+        Reserva::where('usuario_id', $userId)
+            ->where('estado', 'activa')
+            ->whereDate('fecha_reserva', '<', now())
+            ->update(['estado' => 'completada']);
+
+
         $historial = Reserva::where('usuario_id', $userId)
-            ->where(function ($q) {
-                $q->where('estado', 'completada')
-                    ->orWhereDate('fecha_reserva', '<', now());
-            })
+            ->where('estado', '!=', 'activa')
             ->orderBy('fecha_reserva', 'desc')
             ->limit(6)
             ->get();
@@ -64,5 +67,25 @@ class ReservaController extends Controller
         ]);
 
         return redirect()->route('usuario.reservas.index')->with('success', 'Reserva creada con éxito');
+    }
+
+
+    public function destroy($id)
+    {
+        $reserva = Reserva::where('usuario_id', Auth::id())
+            ->where('id', $id)
+            ->first();
+
+        if (!$reserva) {
+            return redirect()->route('usuario.reservas.index')
+                ->with('error', 'Reserva no encontrada o no autorizada.');
+        }
+
+        // Cambiar el estado
+        $reserva->estado = 'cancelada';
+        $reserva->save();
+
+        return redirect()->route('usuario.reservas.index')
+            ->with('success', 'Reserva cancelada correctamente.');
     }
 }
