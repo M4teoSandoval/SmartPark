@@ -19,15 +19,18 @@ class MensualidadController extends Controller
     // ================================================
     public function index()
     {
-        $parqueadero = Parqueadero::where('propietario_id', Auth::id())->firstOrFail();
+        // Obtener todos los IDs de parqueaderos que le pertenecen al admin
+        $parqueaderoIds = Parqueadero::where('propietario_id', Auth::id())->pluck('id');
 
-        $mensualidades = Mensualidad::with(['usuario', 'vehiculo'])
-            ->where('parqueadero_id', $parqueadero->id)
+        // Obtener todas las mensualidades de esos parqueaderos
+        $mensualidades = Mensualidad::with(['usuario', 'vehiculo', 'parqueadero'])
+            ->whereIn('parqueadero_id', $parqueaderoIds)
             ->orderBy('fecha_inicio', 'desc')
             ->get();
 
         return view('admin.mensualidades.index', compact('mensualidades'));
     }
+
 
     // ================================================
     // ✅ FORMULARIO PARA CREAR

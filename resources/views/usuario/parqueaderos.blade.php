@@ -21,6 +21,7 @@
                 <p class="text-muted">Explora los parqueaderos disponibles.</p>
 
                 <div class="parking-grid">
+
                     @foreach ($parqueaderos as $parqueadero)
                         <div class="parking-card">
                             <img src="{{ asset('images/parking.png') }}" alt="">
@@ -43,6 +44,10 @@
                                     @if ($parqueadero->plazasCarrosDisponibles() > 0)
                                         <a href="{{ route('usuario.reservas.create', $parqueadero->id) }}"
                                             class="btn btn-sm btn-primary">Reservar</a>
+                                        <a href="{{ route('usuario.mensualidad.pagar', $parqueadero->id) }}"
+                                            class="btn btn-primary w-100">
+                                            Pagar Mensualidad
+                                        </a>
                                     @else
                                         <span class="text-danger">No disponible</span>
                                     @endif

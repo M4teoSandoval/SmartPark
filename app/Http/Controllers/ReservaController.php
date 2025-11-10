@@ -14,28 +14,72 @@ class ReservaController extends Controller
     {
         $userId = Auth::id();
 
+        // Reservas
+
+        // ✅ Todas las reservas (esto te faltaba)
+        $reservas = Reserva::where('usuario_id', $userId)->get();
+        
         $reservasActivas = Reserva::where('usuario_id', $userId)
             ->where('estado', 'activa')
-            ->whereDate('fecha_reserva', '>=', now())
             ->get();
 
-        Reserva::where('usuario_id', $userId)
-            ->where('estado', 'activa')
-            ->whereDate('fecha_reserva', '<', now())
-            ->update(['estado' => 'completada']);
-
+        $reservasPendientes = Reserva::where('usuario_id', $userId)
+            ->where('estado', 'pendiente')
+            ->get();
 
         $historial = Reserva::where('usuario_id', $userId)
-            ->where('estado', '!=', 'activa')
+            ->where('estado', '!=', 'pendiente')
             ->orderBy('fecha_reserva', 'desc')
             ->limit(6)
             ->get();
 
-        // Todas las reservas del usuario
-        $reservas = Reserva::where('usuario_id', $userId)->get();
+        // ================================
+        // ✅ CÁLCULOS DE USO
+        // ================================
+        $movimientos = \App\Models\Movimiento::where('user_id', $userId)
+            ->where('parqueadero_id', $res->parqueadero_id ?? null)
+            ->orderBy('fecha_hora')
+            ->get();
 
-        return view('usuario.reservas.index', compact('reservasActivas', 'historial', 'reservas'));
+        $diasUsados = 0;
+        $horasTotales = 0;
+
+        $entradas = $movimientos->where('tipo', 'entrada')->values();
+        $salidas  = $movimientos->where('tipo', 'salida')->values();
+
+        foreach ($entradas as $index => $entrada) {
+
+            if (!isset($salidas[$index])) {
+                continue; // si no tiene salida no se cuenta
+            }
+
+            $salida = $salidas[$index];
+
+            $inicio = Carbon\Carbon::parse($entrada->fecha_hora);
+            $fin    = Carbon\Carbon::parse($salida->fecha_hora);
+
+            $horas = $inicio->diffInHours($fin);
+            $dias  = $inicio->isSameDay($fin) ? 1 : $inicio->diffInDays($fin) + 1;
+
+            $horasTotales += $horas;
+            $diasUsados   += $dias;
+        }
+
+        // Promedio diario
+        $promedio = ($diasUsados > 0) ? round($horasTotales / $diasUsados, 2) : 0;
+
+        return view('usuario.reservas.index', compact(
+            'reservasActivas',
+            'reservasPendientes',
+            'historial',
+            'reservasActivas',
+            'diasUsados',
+            'horasTotales',
+            'promedio',
+            'reservas'
+        ));
     }
+
 
 
 
@@ -63,7 +107,7 @@ class ReservaController extends Controller
             'fecha_reserva' => $request->fecha_reserva,
             'hora_inicio' => $request->hora_inicio,
             'hora_fin' => $request->hora_fin,
-            'estado' => 'activa', // estado inicial
+            'estado' => 'pendiente', // estado inicial
         ]);
 
         return redirect()->route('usuario.reservas.index')->with('success', 'Reserva creada con éxito');

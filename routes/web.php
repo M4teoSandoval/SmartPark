@@ -14,7 +14,9 @@ use App\Http\Controllers\Admin\TransaccionController;
 use App\Http\Controllers\Admin\UsersAdminController;
 use App\Http\Controllers\Admin\VehiculoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MensualidadUsuarioController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\TransaccionUsuarioController;
 
 // Página principal
 Route::get('/', function () {
@@ -138,7 +140,7 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 
 
     Route::get('/parqueaderos', [UsuarioController::class, 'parqueaderos'])->name('parqueaderos');
-    Route::get('/transacciones', [UsuarioController::class, 'transacciones'])->name('transacciones');
+    Route::get('/transacciones', [TransaccionUsuarioController::class, 'index'])->name('transacciones');
     Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
 
 
@@ -148,11 +150,6 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
     // Crear reserva para un parqueadero específico
     Route::get('/reservas/create/{parqueadero}', [ReservaController::class, 'create'])->name('reservas.create');
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
-
-
-
-
-
 
     Route::delete('/reservas/{id}', [ReservaController::class, 'destroy'])
         ->name('reservas.destroy');
@@ -165,4 +162,15 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
     Route::get('/vehiculos/create', [UsuarioController::class, 'vehiculosCreate'])->name('vehiculos.create');
     Route::post('/vehiculos', [UsuarioController::class, 'vehiculosStore'])->name('vehiculos.store');
     Route::delete('/vehiculos/{id}', [UsuarioController::class, 'vehiculosDestroy'])->name('vehiculos.destroy');
+
+
+    // Mensualidad
+    Route::get('/mensualidad/pagar/{parqueadero}', [MensualidadUsuarioController::class, 'create'])
+        ->name('mensualidad.pagar');
+
+    Route::post('/mensualidad/pagar', [MensualidadUsuarioController::class, 'store'])
+        ->name('mensualidad.store');
+
+    Route::get('/mensualidades', [MensualidadUsuarioController::class, 'index'])
+        ->name('mensualidad.index');
 });
