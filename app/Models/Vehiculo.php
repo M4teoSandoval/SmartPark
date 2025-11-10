@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,35 +7,35 @@ class Vehiculo extends Model
 {
     protected $fillable = [
         'user_id',
-        'tipo_vehiculo',
-        'placa'
+        'placa',
+        'tipo_vehiculo' // carro o moto
     ];
 
-    // Un vehículo pertenece a un usuario
+    // Relación con usuario
     public function usuario()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Un vehículo tiene muchas reservas
+    // Relación con reservas
     public function reservas()
     {
         return $this->hasMany(Reserva::class);
     }
 
-    // Un vehículo tiene muchas mensualidades
+    // Relación con mensualidades
     public function mensualidades()
     {
         return $this->hasMany(Mensualidad::class);
     }
 
-    // Un vehículo tiene muchos movimientos
+    // Relación con movimientos
     public function movimientos()
     {
         return $this->hasMany(Movimiento::class);
     }
 
-    // Un vehículo tiene muchas transacciones
+    // Relación con transacciones
     public function transacciones()
     {
         return $this->hasMany(Transaccion::class);

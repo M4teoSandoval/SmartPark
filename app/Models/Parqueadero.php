@@ -15,39 +15,79 @@ class Parqueadero extends Model
         'propietario_id'
     ];
 
-    // Un parqueadero pertenece a un propietario
     public function propietario()
     {
         return $this->belongsTo(User::class, 'propietario_id');
     }
 
-    // Un parqueadero tiene muchas tarifas
     public function tarifas()
     {
         return $this->hasMany(Tarifa::class);
     }
 
-    // Un parqueadero tiene muchas reservas
     public function reservas()
     {
         return $this->hasMany(Reserva::class);
     }
 
-    // Un parqueadero tiene muchas mensualidades
     public function mensualidades()
     {
         return $this->hasMany(Mensualidad::class);
     }
 
-    // Un parqueadero tiene muchos movimientos
     public function movimientos()
     {
         return $this->hasMany(Movimiento::class);
     }
 
-    // Un parqueadero tiene muchas transacciones
     public function transacciones()
     {
         return $this->hasMany(Transaccion::class);
+    }
+
+    // 🔹 Calcular vehículos dentro actualmente
+    public function vehiculosEnParqueadero($tipo = null)
+    {
+        $query = $this->movimientos()->where('tipo', 'entrada')
+            ->whereDoesntHave('movimientos', function ($q) {
+                $q->where('tipo', 'salida');
+            });
+
+        if ($tipo) {
+            $query->whereHas('vehiculo', function ($q) use ($tipo) {
+                $q->where('tipo', $tipo);
+            });
+        }
+
+        return $query->count();
+    }
+
+    public function plazasCarrosDisponibles()
+    {
+        // Movimientos de tipo 'entrada' de vehículos tipo carro que no han salido
+        $ocupados = $this->movimientos()
+            ->where('tipo', 'entrada')
+            ->whereHas('vehiculo', fn($q) => $q->where('tipo', 'carro'))
+            ->count()
+            - $this->movimientos()
+            ->where('tipo', 'salida')
+            ->whereHas('vehiculo', fn($q) => $q->where('tipo', 'carro'))
+            ->count();
+
+        return $this->capacidad_carros - $ocupados;
+    }
+
+    public function plazasMotosDisponibles()
+    {
+        $ocupados = $this->movimientos()
+            ->where('tipo', 'entrada')
+            ->whereHas('vehiculo', fn($q) => $q->where('tipo', 'moto'))
+            ->count()
+            - $this->movimientos()
+            ->where('tipo', 'salida')
+            ->whereHas('vehiculo', fn($q) => $q->where('tipo', 'moto'))
+            ->count();
+
+        return $this->capacidad_motos - $ocupados;
     }
 }

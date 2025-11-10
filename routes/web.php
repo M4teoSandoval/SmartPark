@@ -1,5 +1,8 @@
 <?php
 
+
+use App\Http\Controllers\UsuarioController;
+
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MensualidadController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +14,7 @@ use App\Http\Controllers\Admin\TransaccionController;
 use App\Http\Controllers\Admin\UsersAdminController;
 use App\Http\Controllers\Admin\VehiculoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReservaController;
 
 // Página principal
 Route::get('/', function () {
@@ -21,7 +25,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // Home
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/usuario', [HomeController::class, 'index'])->name('usuario.inicio');
 
 // ✅ RUTAS DEL ADMIN (solo usuarios autenticados)
 Route::middleware(['auth'])->group(function () {
@@ -116,3 +120,31 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/usuarios/create', [UsersAdminController::class, 'create'])->name('admin.usuarios.create');
     Route::post('/admin/usuarios', [UsersAdminController::class, 'store'])->name('admin.usuarios.store');
 });
+
+
+
+Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function () {
+    Route::get('/', [UsuarioController::class, 'inicio'])->name('inicio');
+    
+
+    Route::get('/parqueaderos', [UsuarioController::class, 'parqueaderos'])->name('parqueaderos');
+    Route::get('/transacciones', [UsuarioController::class, 'transacciones'])->name('transacciones');
+    Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
+
+
+    // Mostrar todas las reservas del usuario
+    Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
+
+    // Crear reserva para un parqueadero específico
+    Route::get('/reservas/create/{parqueadero}', [ReservaController::class, 'create'])->name('reservas.create');
+    Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+
+
+
+     // Vehículos
+    Route::get('/vehiculos', [UsuarioController::class, 'vehiculos'])->name('vehiculos.index');
+    Route::get('/vehiculos/create', [UsuarioController::class, 'vehiculosCreate'])->name('vehiculos.create');
+    Route::post('/vehiculos', [UsuarioController::class, 'vehiculosStore'])->name('vehiculos.store');
+    Route::delete('/vehiculos/{id}', [UsuarioController::class, 'vehiculosDestroy'])->name('vehiculos.destroy');
+});
+

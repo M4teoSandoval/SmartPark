@@ -61,8 +61,10 @@
 }
 
 .sidebar-menu li a .icon {
-    margin-right: 10px;
-    font-size: 1.2em;
+    margin-right: 12px;
+    font-size: 1.15em;
+    width: 26px;
+    text-align: center;
 }
 
 .sidebar-menu li a:hover {

@@ -16,6 +16,13 @@ class Reserva extends Model
         'estado'
     ];
 
+    protected $casts = [
+        'fecha_reserva' => 'date',
+        'hora_inicio' => 'datetime:H:i', // si quieres manejarlo como hora
+        'hora_fin' => 'datetime:H:i',
+    ];
+
+
     public function usuario()
     {
         return $this->belongsTo(User::class, 'usuario_id');

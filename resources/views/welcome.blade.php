@@ -34,9 +34,19 @@
 
             <!-- Botones a la derecha -->
             <div class="d-flex">
-                <a href="{{ route('login') }}" class="btn btn-success me-2">Ingresar</a>
-                <a href="{{ route('register') }}" class="btn btn-primary">Registrarse</a>
+                @guest
+                    <a href="{{ route('login') }}" class="btn btn-success me-2">Ingresar</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Registrarse</a>
+                @else
+                    <a href="{{ route('usuario.inicio') }}" class="btn btn-info me-2">Mi Panel</a>
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                    </form>
+                @endguest
             </div>
+
+
         </div>
     </nav>
 

@@ -1,5 +1,9 @@
 <aside class="sidebar " id="sidebar">
-    <h2 class="sidebar-title">ADMIN</h2>
+    <!-- Marca -->
+    <div class="sidebar-brand mb-4 text-center">
+        <div class="fw-bold text-white fs-3">SmartPark</div>
+        <div class="text-white small">Cliente</div>
+    </div>
     <ul class="sidebar-menu">
         <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Inicio</a></li>
         <li><a href="{{ route('admin.ajustes') }}" class="{{ request()->routeIs('admin.ajustes') ? 'active' : '' }}">Parqueadero</a></li>
