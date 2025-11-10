@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">Transacciones</h4>
+    <h2>Transacciones</h2>
     <small class="text-muted">Últimas operaciones</small>
   </div>
 

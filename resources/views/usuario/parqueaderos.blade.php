@@ -8,6 +8,7 @@
     <link href="{{ asset('css/user.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 </head>
 
 <body>
@@ -22,7 +23,7 @@
                 <div class="parking-grid">
                     @foreach ($parqueaderos as $parqueadero)
                         <div class="parking-card">
-                            <img src="{{ asset('images/image_parqueadero.jpeg') }}" alt="">
+                            <img src="{{ asset('images/parking.png') }}" alt="">
                             <div class="card-body">
                                 <h5>{{ $parqueadero->nombre }}</h5>
                                 <p class="text-muted">{{ $parqueadero->direccion }}</p>
@@ -50,11 +51,8 @@
                         </div>
                     @endforeach
                 </div>
-
-
             </main>
         </div>
-        @include('layouts.footer')
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
