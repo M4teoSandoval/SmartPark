@@ -3,7 +3,10 @@
 @section('content')
 <div class="reservas-container">
 
-    {{-- ====== RESUMEN RÁPIDO ====== --}}
+
+    {{-- =========================================
+        RESUMEN RÁPIDO
+    ========================================== --}}
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="res-card card-primary">
@@ -36,7 +39,53 @@
 
 
 
-    {{-- ====== RESERVAS ACTIVAS ====== --}}
+
+    {{-- =========================================
+        RESERVAS PENDIENTES
+    ========================================== --}}
+    <div class="res-card mb-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold">Reservas pendientes</h4>
+            <span class="badge bg-warning text-dark fw-bold">{{ $reservasPendientes->count() }} pendientes</span>
+        </div>
+
+        @if ($reservasPendientes->isEmpty())
+            <p class="text-muted text-center">No tienes reservas pendientes de aprobación.</p>
+
+        @else
+            @foreach ($reservasPendientes as $res)
+                <div class="reserva-item">
+
+                    <div>
+                        <div class="reserva-title">
+                            #RSV-{{ str_pad($res->id, 5, '0', STR_PAD_LEFT) }}
+                            – {{ $res->parqueadero->nombre }}
+                        </div>
+
+                        <div class="reserva-det">
+                            {{ $res->parqueadero->direccion }}<br>
+                            {{ $res->fecha_reserva->format('d M Y') }} —
+                            {{ $res->hora_inicio }} a {{ $res->hora_fin }}
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <span class="badge bg-warning text-dark fw-bold">Pendiente</span>
+                    </div>
+
+                </div>
+            @endforeach
+        @endif
+
+    </div>
+
+
+
+
+    {{-- =========================================
+        RESERVAS ACTIVAS
+    ========================================== --}}
     <div class="res-card mb-4">
 
         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -53,11 +102,12 @@
 
                     <div>
                         <div class="reserva-title">
-                            #RSV-{{ str_pad($res->id, 5, '0', STR_PAD_LEFT) }} – {{ $res->parqueadero->nombre }}
+                            #RSV-{{ str_pad($res->id, 5, '0', STR_PAD_LEFT) }}
+                            – {{ $res->parqueadero->nombre }}
                         </div>
 
                         <div class="reserva-det">
-                            {{ $res->parqueadero->direccion }} <br>
+                            {{ $res->parqueadero->direccion }}<br>
                             {{ $res->fecha_reserva->format('d M Y') }}
                             — {{ $res->hora_inicio }} a {{ $res->hora_fin }}
                         </div>
@@ -84,7 +134,10 @@
 
 
 
-    {{-- ====== HISTORIAL ====== --}}
+
+    {{-- =========================================
+        HISTORIAL
+    ========================================== --}}
     <div class="res-card">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -102,7 +155,8 @@
                     <div class="accordion-item">
 
                         <h2 class="accordion-header" id="h{{ $key }}">
-                            <button class="accordion-button collapsed" data-bs-toggle="collapse"
+                            <button class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
                                     data-bs-target="#c{{ $key }}">
                                 #RSV-{{ str_pad($h->id, 5, '0', STR_PAD_LEFT) }}
                                 &nbsp;—&nbsp; {{ $h->parqueadero->nombre }}
@@ -116,7 +170,9 @@
 
                                 <div><strong>Horario:</strong> {{ $h->hora_inicio }} - {{ $h->hora_fin }}</div>
                                 <div><strong>Precio:</strong> ${{ $h->transaccion?->monto ?? '0.00' }}</div>
-                                <div class="mb-2"><strong>Estado:</strong> {{ ucfirst($h->estado) }}</div>
+                                <div class="mb-2">
+                                    <strong>Estado:</strong> {{ ucfirst($h->estado) }}
+                                </div>
 
                                 <a class="btn btn-res btn-ver">Ver factura</a>
 

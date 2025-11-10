@@ -8,6 +8,7 @@
     <link href="{{ asset('css/user.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 </head>
 
 <body>
@@ -20,6 +21,7 @@
                 <p class="text-muted">Explora los parqueaderos disponibles.</p>
 
                 <div class="parking-grid">
+
                     @foreach ($parqueaderos as $parqueadero)
                         <div class="parking-card">
                             <img src="{{ asset('images/image_parqueadero.jpeg') }}" alt="">
@@ -42,6 +44,10 @@
                                     @if ($parqueadero->plazasCarrosDisponibles() > 0)
                                         <a href="{{ route('usuario.reservas.create', $parqueadero->id) }}"
                                             class="btn btn-sm btn-primary">Reservar</a>
+                                        <a href="{{ route('usuario.mensualidad.pagar', $parqueadero->id) }}"
+                                            class="btn btn-primary w-100">
+                                            Pagar Mensualidad
+                                        </a>
                                     @else
                                         <span class="text-danger">No disponible</span>
                                     @endif

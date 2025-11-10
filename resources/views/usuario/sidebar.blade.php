@@ -32,6 +32,12 @@
             </a>
         </li>
         <li class="mb-2">
+            <a href="{{ route('usuario.mensualidad.index') }}" 
+               class="text-white text-decoration-none d-flex align-items-center {{ request()->routeIs('usuario.mensualidad.index') ? 'fw-bold active' : '' }}">
+                <i class="bi bi-receipt me-2"></i> Mensualidades
+            </a>
+        </li>
+        <li class="mb-2">
             <a href="{{ route('usuario.transacciones') }}" 
                class="text-white text-decoration-none d-flex align-items-center {{ request()->routeIs('usuario.transacciones') ? 'fw-bold active' : '' }}">
                 <i class="bi bi-receipt me-2"></i> Transacciones
