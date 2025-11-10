@@ -15,8 +15,6 @@ class VehiculoController extends Controller
     // ✅ Listar vehículos
     public function index()
     {
-
-
         $parqueadero = Parqueadero::where('propietario_id', auth()->id())->first();
 
         $vehiculos = Vehiculo::where('user_id', auth()->id())->get();

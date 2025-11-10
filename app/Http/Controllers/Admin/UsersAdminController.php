@@ -37,7 +37,7 @@ class UsersAdminController extends Controller
     // ✅ Form para crear usuario manualmente
     public function create()
     {
-        return view('admin.usuarios.create');
+        return view('admin.usuarios.create')->with('success', 'Usuario registrado.');;
     }
 
     // ✅ Registrar usuario manualmente desde el admin
@@ -58,6 +58,11 @@ class UsersAdminController extends Controller
             'numero_documento' => $request->numero_documento,
             'role_id' => 2, // usuario normal
             'password' => Hash::make($request->password),
+            
+            
+
+            
+
         ]);
 
         return redirect()->route('admin.usuarios')

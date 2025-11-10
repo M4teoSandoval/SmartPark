@@ -1,4 +1,4 @@
-<aside class="sidebar">
+<aside class="sidebar " id="sidebar">
     <h2 class="sidebar-title">ADMIN</h2>
     <ul class="sidebar-menu">
         <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Inicio</a></li>
@@ -14,3 +14,4 @@
             
     </ul>
 </aside>
+
