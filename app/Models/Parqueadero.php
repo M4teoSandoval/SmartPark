@@ -12,7 +12,8 @@ class Parqueadero extends Model
         'ciudad',
         'capacidad_carros',
         'capacidad_motos',
-        'propietario_id'
+        'propietario_id',
+        'imagen'
     ];
 
     public function propietario()

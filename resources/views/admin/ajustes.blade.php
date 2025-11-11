@@ -73,7 +73,8 @@
                     </div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.parqueadero.update', $parqueadero->id) }}">
+                        <form method="POST" action="{{ route('admin.parqueadero.update', $parqueadero->id) }} "
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -81,6 +82,20 @@
                                 <label class="fw-semibold">Nombre</label>
                                 <input type="text" name="nombre" value="{{ $parqueadero->nombre }}" class="form-control"
                                     required>
+                            </div>
+
+                            <div class="mb-3">
+                                {{-- Mostrar imagen actual si existe --}}
+                                @if ($parqueadero->imagen)
+                                    <label class="fw-semibold" for="imagen">Foto actual parqueadero</label>
+                                    <div class="mb-2">
+
+                                        <img src="{{ asset('storage/' . $parqueadero->imagen) }}" alt="Imagen actual"
+                                            style="width: 150px; height: 100px; object-fit: cover; border-radius: 5px;">
+                                    </div>
+                                @endif
+                                <label class="fw-semibold" for="imagen">Subir foto del parqueadero</label>
+                                <input type="file" name="imagen" id="imagen" class="form-control">
                             </div>
 
                             <div class="mb-3">
@@ -103,8 +118,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="fw-semibold">Capacidad Motos</label>
-                                    <input type="number" name="capacidad_motos" value="{{ $parqueadero->capacidad_motos }}"
-                                        class="form-control" required>
+                                    <input type="number" name="capacidad_motos"
+                                        value="{{ $parqueadero->capacidad_motos }}" class="form-control" required>
                                 </div>
                             </div>
 
