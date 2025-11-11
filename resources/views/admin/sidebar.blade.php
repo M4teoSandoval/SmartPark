@@ -62,11 +62,7 @@
             </a>
         </li>
 
-        <li>
-            <a href="{{ route('admin.reportes') }}" class="{{ request()->routeIs('admin.reportes') ? 'active' : '' }}">
-                <i class="bi bi-bar-chart-line icon"></i> Reportes
-            </a>
-        </li>
+
 
     </ul>
 

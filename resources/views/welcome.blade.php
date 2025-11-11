@@ -413,7 +413,7 @@
                     <!-- Miembro 2 -->
                     <div class="col-md-4 mb-4">
                         <div class="text-center">
-                            <img src="{{ asset('images/mateo.jpeg') }}" class="rounded-circle mb-3 w-75 "
+                            <img src="{{ asset('images/fotomateo3.jpg') }}" class="rounded-circle mb-3 w-75 "
                                 alt="Mateo Sandoval">
                             <h5 class="fw-bold mb-1">Mateo Sandoval</h5>
                             <p class="text-primary mb-1">Co-Fundador & Diseñador UX/UI</p>
