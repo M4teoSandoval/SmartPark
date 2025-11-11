@@ -142,6 +142,8 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
     Route::get('/parqueaderos', [UsuarioController::class, 'parqueaderos'])->name('parqueaderos');
     Route::get('/transacciones', [TransaccionUsuarioController::class, 'index'])->name('transacciones');
     Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
+    Route::get('perfil/edit', [UsuarioController::class, 'editPerfil'])->name('perfil.edit');
+    Route::put('perfil', [UsuarioController::class, 'updatePerfil'])->name('perfil.update');
 
 
     // Mostrar todas las reservas del usuario
@@ -157,11 +159,16 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 
 
 
-    // Vehículos
-    Route::get('/vehiculos', [UsuarioController::class, 'vehiculos'])->name('vehiculos.index');
-    Route::get('/vehiculos/create', [UsuarioController::class, 'vehiculosCreate'])->name('vehiculos.create');
-    Route::post('/vehiculos', [UsuarioController::class, 'vehiculosStore'])->name('vehiculos.store');
-    Route::delete('/vehiculos/{id}', [UsuarioController::class, 'vehiculosDestroy'])->name('vehiculos.destroy');
+    // Listar vehículos
+    Route::get('vehiculos', [UsuarioController::class, 'vehiculos'])->name('vehiculos.index');
+
+    // Crear vehículo
+    Route::get('vehiculos/create', [UsuarioController::class, 'vehiculosCreate'])->name('vehiculos.create');
+    Route::post('vehiculos', [UsuarioController::class, 'vehiculosStore'])->name('vehiculos.store');
+
+    // Editar vehículo
+    Route::get('vehiculos/{vehiculo}/edit', [UsuarioController::class, 'vehiculosEdit'])->name('vehiculos.edit');
+    Route::put('vehiculos/{vehiculo}', [UsuarioController::class, 'vehiculosUpdate'])->name('vehiculos.update');
 
 
     // Mensualidad

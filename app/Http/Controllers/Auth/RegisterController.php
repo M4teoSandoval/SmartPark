@@ -31,6 +31,7 @@ class RegisterController extends Controller
             // ✅ Campos adicionales
             'tipo_documento' => ['required', 'string', 'max:10'],
             'numero_documento' => ['required', 'string', 'max:30'],
+            'telefono' => ['required', 'string', 'max:20'],
             
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -47,6 +48,8 @@ class RegisterController extends Controller
             
             // ✅ Campos adicionales
             'tipo_documento' => $data['tipo_documento'],
+            'numero_documento' => $data['numero_documento'],
+
             'numero_documento' => $data['numero_documento'],
 
             // ✅ Rol por defecto (usuario conductor)

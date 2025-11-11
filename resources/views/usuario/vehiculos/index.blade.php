@@ -13,8 +13,8 @@
 @if($vehiculos->isEmpty())
     <p>No tienes vehículos registrados.</p>
 @else
-    <table class="table">
-        <thead>
+    <table class="table align-middle">
+        <thead class="table-light">
             <tr>
                 <th>Placa</th>
                 <th>Tipo</th>
@@ -27,11 +27,9 @@
                 <td>{{ $veh->placa }}</td>
                 <td>{{ ucfirst($veh->tipo_vehiculo) }}</td>
                 <td>
-                    <form action="{{ route('usuario.vehiculos.destroy', $veh->id) }}" method="POST" onsubmit="return confirm('¿Eliminar este vehículo?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                    </form>
+                    <a href="{{ route('usuario.vehiculos.edit', $veh->id) }}" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil-fill"></i> Editar
+                    </a>
                 </td>
             </tr>
             @endforeach
