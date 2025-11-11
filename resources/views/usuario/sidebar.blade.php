@@ -32,14 +32,14 @@
             </a>
         </li>
         <li class="mb-2">
-            <a href="{{ route('usuario.mensualidad.index') }}" 
-               class="text-white text-decoration-none d-flex align-items-center {{ request()->routeIs('usuario.mensualidad.index') ? 'fw-bold active' : '' }}">
+            <a href="{{ route('usuario.mensualidad.index') }}"
+                class="text-white text-decoration-none d-flex align-items-center {{ request()->routeIs('usuario.mensualidad.index') ? 'fw-bold active' : '' }}">
                 <i class="bi bi-wallet2 me-2"></i> Mensualidades
             </a>
         </li>
         <li class="mb-2">
-            <a href="{{ route('usuario.transacciones') }}" 
-               class="text-white text-decoration-none d-flex align-items-center {{ request()->routeIs('usuario.transacciones') ? 'fw-bold active' : '' }}">
+            <a href="{{ route('usuario.transacciones') }}"
+                class="text-white text-decoration-none d-flex align-items-center {{ request()->routeIs('usuario.transacciones') ? 'fw-bold active' : '' }}">
                 <i class="bi bi-receipt me-2"></i> Transacciones
             </a>
         </li>
@@ -50,10 +50,15 @@
             </a>
         </li>
         <li class="mb-2">
-            <a href="#"
-                class="btn btn-danger d-flex align-items-center justify-content-center w-100 text-white mt-3">
-                <i class="bi bi-crown me-2"></i> Ser Administrador
-            </a>
+            @if (!auth()->user()->isAdmin())
+                <form method="GET" action="{{ route('usuario.upgrade.payment') }}">
+                    <button type="submit" class="btn btn-success w-100 rounded-pill">
+                        Ser Admin
+                    </button>
+                </form>
+            @endif
+
+
         </li>
     </ul>
 </aside>

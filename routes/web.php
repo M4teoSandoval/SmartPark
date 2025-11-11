@@ -17,6 +17,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MensualidadUsuarioController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\TransaccionUsuarioController;
+use App\Http\Controllers\payu\CreatePaymentController;
+use Illuminate\Support\Facades\Auth;
+
 
 // Página principal
 Route::get('/', function () {
@@ -180,4 +183,11 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 
     Route::get('/mensualidades', [MensualidadUsuarioController::class, 'index'])
         ->name('mensualidad.index');
+
+
+
+    // ✅ NUEVO: Upgrade a Admin con PayU (RUTAS CORREGIDAS)
+    Route::get('/upgrade-to-admin', [CreatePaymentController::class, 'createPayment'])->name('upgrade.payment');
+    Route::get('/payu/response', [CreatePaymentController::class, 'paymentResponse'])->name('payu.response');
+    Route::post('/payu/confirmation', [CreatePaymentController::class, 'paymentConfirmation'])->name('payu.confirmation');
 });

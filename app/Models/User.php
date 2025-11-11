@@ -30,6 +30,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function isAdmin()
+    {
+        return $this->role && $this->role->nombre === 'admin';
+    }
+
     /**
      * Casts de datos
      */
